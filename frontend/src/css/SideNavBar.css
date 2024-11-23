@@ -1,0 +1,224 @@
+/* .sidenavbar-container {
+    width: 250px;
+    height: 100vh;
+    background: linear-gradient(120deg, #2196f3, #f57c00);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+  }
+  
+  .sidenavbar-logo {
+    margin-bottom: 30px;
+  }
+  
+  .sidenavbar-logo h2 {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .sidenavbar-menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .menu-item {
+    width: 90%;
+    padding: 10px 15px;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .menu-item.active,
+  .menu-item:hover {
+    background: rgba(0, 0, 0, 0.6);
+  }
+  
+  .menu-icon {
+    font-size: 20px;
+  }
+   */
+
+   .layout {
+    display: flex;
+    height: 100vh;
+  }
+  .main-content {
+    flex: 1;
+    overflow-y: auto; 
+    padding: 20px; 
+  }
+  
+  .side-nav-container {
+    width: 280px;
+    height: 100%;
+    background-color: #2f4156;
+    color: #fff;
+    transition: all 0.3s ease;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .side-nav-container-NX {
+    width: 80px;
+  }
+  
+  .nav-upper {
+    padding: 20px;
+    border-bottom: 1px solid #2c3e50;
+  }
+  
+  .nav-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-brand img {
+    width: 55px;
+    height: 60px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+  
+  }
+  
+  .nav-brand h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0;
+    color: #fff;
+  }
+  
+  .hamburger {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  
+  }
+  
+  .hamburger span {
+    display: block;
+  margin-top: 5px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  height: 3px;
+  width: 25px;
+  transition: 0.4s;
+  
+  }
+  .hamburger:hover span {
+  background-color: #ffffff;
+  
+  }
+  
+  .hamburger-in:hover span:nth-child(1) {
+  width: 25px;
+  transform: translateY(4px) rotate(-25deg);
+  
+  }
+  .hamburger-in:hover span:nth-child(2) {
+  width: 40px;
+  }
+  .hamburger-in:hover span:nth-child(3) {
+  width: 25px;
+  transform: translateY(-4px) rotate(25deg);
+  }
+  .hamburger-out {
+  margin-left: 0px;
+  }
+  .hamburger-out:hover span:nth-child(1) {
+  width: 25px;
+  transform: translate(14px, 4px) rotate(-155deg);
+  }
+  .hamburger-out:hover span:nth-child(2) {
+  width: 40px;
+  }
+  .hamburger-out:hover span:nth-child(3) {
+  width: 25px;
+  transform: translate(14px, -4px) rotate(155deg);
+  }
+  .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #f0eeee;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    font-weight: bold;
+  }
+  
+  .menu-item:hover {
+    background-color: #2cc0da;
+    color: #fff;
+  }
+  
+  .menu-item-NX {
+    justify-content: center;
+  }
+  
+  .menu-item-icon {
+    margin-right: 15px;
+  }
+  
+  .nav-footer {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #2c3e50;
+  }
+  
+  .nav-details {
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-footer-avatar {
+    margin-right: 15px;
+  }
+  
+  .nav-footer-user-name {
+    margin: 0;
+    color: #fff;
+  }
+  
+  .logout-icon {
+    cursor: pointer;
+    color: #ccc;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #222f3e;
+    color: #fff;
+    overflow-y: auto;
+  }
+  
+  .nav-menu {
+  margin-top: 60px; /* Ajustez la valeur selon vos besoins */
+  }
+  
