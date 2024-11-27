@@ -1,80 +1,76 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next'; // Import i18next hook
+import { useNavigate } from 'react-router-dom'; // Import navigation hook
 import '../css/HomePage.css';
 import { FaGlobe } from 'react-icons/fa';
 import logo from '../img/log22.png';
 
 function HomePage() {
-  const [activeSection, setActiveSection] = useState('home'); // 'home' or 'about' or 'form'
+  const { t, i18n } = useTranslation(); // Hook for translation and language change
+  const navigate = useNavigate(); // React Router hook for navigation
+  const [activeSection, setActiveSection] = useState('home'); // 'home', 'about', or 'form'
   const [activeForm, setActiveForm] = useState(''); // '' = no form displayed
-  const [language, setLanguage] = useState('en'); // Default language is English
   const [showLanguageOptions, setShowLanguageOptions] = useState(false); // Controls language dropdown visibility
 
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
   const handleLanguageChange = (lang) => {
-    setLanguage(lang);
+    i18n.changeLanguage(lang); // Change the language using i18next
     setShowLanguageOptions(false); // Close dropdown after selecting
   };
 
-  const text = {
-    en: {
-      home: 'Home',
-      about: 'About Us',
-      welcome: 'Welcome to Price Predictor',
-      description: 'Track and predict prices for electronic products effortlessly.',
-      aboutDescription:
-        'Price Predictor helps you analyze historical data and predict future trends for electronic products.',
-      login: 'Login',
-      signup: 'Sign Up',
-      email: 'Email Address',
-      password: 'Password',
-      fullName: 'Full Name',
-      confirmPassword: 'Confirm Password',
-    },
-    fr: {
-      home: 'Accueil',
-      about: 'À propos',
-      welcome: 'Bienvenue sur Price Predictor',
-      description: 'Suivez et prédisez les prix des produits électroniques facilement.',
-      aboutDescription:
-        'Price Predictor vous aide à analyser les données historiques et à prévoir les tendances futures des produits électroniques.',
-      login: 'Connexion',
-      signup: 'S\'inscrire',
-      email: 'Adresse e-mail',
-      password: 'Mot de passe',
-      fullName: 'Nom complet',
-      confirmPassword: 'Confirmer le mot de passe',
-    },
-    ar: {
-      home: 'الصفحة الرئيسية',
-      about: 'من نحن',
-      welcome: 'مرحبًا بك في Price Predictor',
-      description: 'تتبع وتوقع أسعار المنتجات الإلكترونية بسهولة.',
-      aboutDescription:
-        'يساعدك Price Predictor في تحليل البيانات التاريخية والتنبؤ بالاتجاهات المستقبلية للمنتجات الإلكترونية.',
-      login: 'تسجيل الدخول',
-      signup: 'اشتراك',
-      email: 'البريد الإلكتروني',
-      password: 'كلمة المرور',
-      fullName: 'الاسم الكامل',
-      confirmPassword: 'تأكيد كلمة المرور',
-    },
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  
-  
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    const url = activeForm === 'signup' ? '/signup' : '/login';
+    const payload =
+      activeForm === 'signup'
+        ? { fullName: formData.fullName, email: formData.email, password: formData.password }
+        : { email: formData.email, password: formData.password };
+
+    try {
+      const response = await fetch(`http://localhost:5000${url}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        if (activeForm === 'login') {
+          alert(t('loginSuccess'));
+          navigate('/prediction'); // Redirect user to /predictions on successful login
+        } else {
+          alert(t('signupSuccess'));
+        }
+      } else {
+        alert(data.error || t('errorOccurred'));
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert(t('errorOccurred'));
+    }
+  };
 
   return (
     <div className="homepage-container">
       <header className="homepage-header">
         <div className="logo-container">
           <img src={logo} alt="App Logo" className="app-logo" />
-          <h1>Price Predictor</h1>
+          <h1>{t('appName')}</h1>
         </div>
         <nav className="navigation-menu">
-          
-              <button onClick={() => setActiveSection('home')}>{text[language].home}</button>
-           
-              <button onClick={() => setActiveSection('about')}>{text[language].about}</button>
-            
-          
+          <button onClick={() => setActiveSection('home')}>{t('home')}</button>
+          <button onClick={() => setActiveSection('about')}>{t('about')}</button>
         </nav>
         <div className="header-actions">
           <div className="language-selector">
@@ -97,7 +93,7 @@ function HomePage() {
               setActiveSection('form');
             }}
           >
-            {text[language].login}
+            {t('login')}
           </button>
           <button
             className="header-button"
@@ -106,45 +102,68 @@ function HomePage() {
               setActiveSection('form');
             }}
           >
-            {text[language].signup}
+            {t('signup')}
           </button>
         </div>
       </header>
 
       {activeSection === 'home' && (
         <div className="homepage-content">
-          <h2>{text[language].welcome}</h2>
-          <p>{text[language].description}</p>
+          <h2>{t('welcome')}</h2>
+          <p>{t('description')}</p>
         </div>
       )}
 
       {activeSection === 'about' && (
         <div className="about-section">
-          <h2>{text[language].about}</h2>
-          <p>{text[language].aboutDescription}</p>
+          <h2>{t('about')}</h2>
+          <p>{t('aboutDescription')}</p>
         </div>
       )}
 
-      {activeSection === 'form' && activeForm === 'login' && (
+      {activeSection === 'form' && activeForm && (
         <div className="form-box">
-          <h2>{text[language].login}</h2>
-          <form>
-            <input type="email" placeholder={text[language].email} required />
-            <input type="password" placeholder={text[language].password} required />
-            <button type="submit" className="form-button">{text[language].login}</button>
-          </form>
-        </div>
-      )}
-
-      {activeSection === 'form' && activeForm === 'signup' && (
-        <div className="form-box">
-          <h2>{text[language].signup}</h2>
-          <form>
-            <input type="text" placeholder={text[language].fullName} required />
-            <input type="email" placeholder={text[language].email} required />
-            <input type="password" placeholder={text[language].password} required />
-            <input type="password" placeholder={text[language].confirmPassword} required />
-            <button type="submit" className="form-button">{text[language].signup}</button>
+          <h2>{t(activeForm)}</h2>
+          <form onSubmit={handleFormSubmit}>
+            {activeForm === 'signup' && (
+              <input
+                type="text"
+                name="fullName"
+                placeholder={t('fullName')}
+                value={formData.fullName}
+                onChange={handleInputChange}
+                required
+              />
+            )}
+            <input
+              type="email"
+              name="email"
+              placeholder={t('email')}
+              value={formData.email}
+              onChange={handleInputChange}
+              required
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder={t('password')}
+              value={formData.password}
+              onChange={handleInputChange}
+              required
+            />
+            {activeForm === 'signup' && (
+              <input
+                type="password"
+                name="confirmPassword"
+                placeholder={t('confirmPassword')}
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                required
+              />
+            )}
+            <button type="submit" className="form-button">
+              {t(activeForm)}
+            </button>
           </form>
         </div>
       )}

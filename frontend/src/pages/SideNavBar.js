@@ -46,49 +46,40 @@
 // export default SideNavBar;
 
 
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Outlet, Link } from "react-router-dom";
 import '../css/SideNavBar.css';
-import { FaHome, FaChartLine, FaBox, FaCog, FaRegUserCircle, FaSignOutAlt} from 'react-icons/fa';
-
+import { FaChartLine, FaHistory, FaUserAlt, FaCog, FaBars, FaSignOutAlt } from 'react-icons/fa';
 
 export default function SideNavBar() {
-
-
-
- 
-
     const [isExpanded, setExpandState] = useState(false);
+
     const menuItems = [
-        { text: 'dashboard', icon: <FaHome className="menu-icon"/>, path: "dashboard" },
-        { text: 'predictions', icon: <FaChartLine className="menu-icon"  />, path: "predictions" },
-        { text: 'products', icon: <FaBox className="menu-icon" />, path: "products" },
+        { text: 'Prédiction', icon: <FaChartLine className="menu-icon" />, path: "prediction" },
+        { text: 'Historique', icon: <FaHistory className="menu-icon" />, path: "historique" },
+        { text: 'Compte', icon: <FaUserAlt className="menu-icon" />, path: "Compte" },
         { text: 'Paramètres', icon: <FaCog className="menu-icon" />, path: "Paramètres" }
     ];
 
-
- 
-    
-
- return (
+    return (
         <div className="layout">
             <div className={isExpanded ? "side-nav-container" : "side-nav-container side-nav-container-NX"}>
                 <div className="nav-upper">
                     <div className="nav-heading">
-                        
                         <button
                             className={isExpanded ? "hamburger hamburger-in" : "hamburger hamburger-out"}
                             onClick={() => setExpandState(!isExpanded)}
                         >
-                            <span></span>
-                            <span></span>
-                            <span></span>
+                            <FaBars />
                         </button>
                     </div>
                     <div className="nav-menu">
                         {menuItems.map(({ text, icon, path }) => (
-                            <Link key={text} to={`/${path}`} className={isExpanded ? "menu-item" : "menu-item menu-item-NX"}>
+                            <Link
+                                key={text}
+                                to={`/${path}`}
+                                className={isExpanded ? "menu-item" : "menu-item menu-item-NX"}
+                            >
                                 <div className="menu-item-icon">{icon}</div>
                                 {isExpanded && <p>{text}</p>}
                             </Link>
@@ -98,10 +89,9 @@ export default function SideNavBar() {
                 <div className="nav-footer">
                     {isExpanded && (
                         <div className="nav-details">
-                            <div className="nav-footer-avatar"><FaRegUserCircle /></div>
+                            <div className="nav-footer-avatar"><FaUserAlt /></div>
                             <div className="nav-footer-info">
-                            <p className="nav-footer-user-name">Sana Barkouch</p>
-
+                                <p className="nav-footer-user-name">Sana Barkouch</p>
                                 <p className="nav-footer-user-position">{'logout'}</p>
                             </div>
                         </div>

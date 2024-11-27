@@ -1,0 +1,117 @@
+/* Généralités de la page */
+.prediction-page {
+  background-color: #121212;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+/* Titre de la page */
+.welcome-message {
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+/* Conteneur pour les formulaires */
+.form-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Formulaires */
+.left-form, .right-form {
+  background-color: #2C2C2C;
+  padding: 20px;
+  border-radius: 8px;
+  width: 48%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Titre des formulaires */
+.left-form h2, .right-form h2 {
+  color: #FF5722;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+/* Style des étiquettes des champs */
+.left-form label, .right-form label {
+  color: #ccc;
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Champs de saisie */
+.left-form input, .right-form input,
+.left-form select, .right-form select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background-color: #333;
+  color: #fff;
+  font-size: 14px;
+  transition: border 0.3s ease;
+}
+
+/* Focus sur les champs de saisie */
+.left-form input:focus, .right-form input:focus,
+.left-form select:focus, .right-form select:focus {
+  border: 1px solid #FF5722;
+  outline: none;
+}
+
+/* Boutons +/- */
+input[type="number"] {
+  width: 80%;
+  padding: 10px;
+  margin-right: 10px;
+  border-radius: 4px;
+  border: 1px solid #444;
+  background-color: #333;
+  color: #fff;
+}
+
+input[type="button"] {
+  width: 15%;
+  padding: 10px;
+  background-color: #FF5722;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+input[type="button"]:hover {
+  background-color: #e64a19;
+}
+
+/* Bouton de validation */
+button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+/* Style pour le message de validation */
+.validation-message {
+  font-size: 18px;
+  color: #FF5722;
+  text-align: center;
+  margin-top: 20px;
+}
