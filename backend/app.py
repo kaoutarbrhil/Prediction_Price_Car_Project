@@ -103,6 +103,36 @@ def login():
         }), 200
     
     return jsonify({'error': 'Invalid email or password'}), 401
+# Route to fetch user details
+@app.route('/user/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+    return jsonify({
+        'id': user.id,
+        'name': user.full_name,
+        'email': user.email,
+    }), 200
+
+# Route to update user details
+@app.route('/user/<int:user_id>', methods=['PUT'])
+def update_user(user_id):
+    data = request.get_json()
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+
+    # Update user information
+    user.full_name = data.get('name', user.full_name)
+    user.email = data.get('email', user.email)
+    
+    # Update password only if provided
+    if 'password' in data and data['password']:
+        user.password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
+
+    db.session.commit()
+    return jsonify({'message': 'User updated successfully'}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
