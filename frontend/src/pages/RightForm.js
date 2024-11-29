@@ -18,8 +18,6 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
 
     // Utiliser `useState` pour initialiser formData avec les valeurs par défaut ou les props
     const [formData, setLocalFormData] = useState(() => {
-        console.log("propFormData : ",propFormData)
-        console.log("defaultFormData : ",defaultFormData)
         // Vérifier si toutes les propriétés de propFormData sont vides
         const isPropFormDataEmpty = Object.values(propFormData).every(value => value === "");
 
@@ -58,29 +56,53 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
         try {
             setError(null); // Réinitialiser les erreurs
             setPrediction(null); // Réinitialiser la prédiction
-
+    
+            // Transformation des données avant de les envoyer
+            const transformedData = {
+                fuel_type: formData.fuelType,
+                body_type: formData.bodyType,
+                kilometers_driven: formData.kilometersDriven,
+                transmission: formData.transmission,
+                owner_no: formData.ownerNo,
+                manufacturer: formData.manufacturer,
+                model_year: formData.modelYear,
+                insurance: formData.insurance,
+                engine: formData.engineSize,
+                max_power: formData.maxPower,
+                torque: formData.torque,
+                wheel_size: formData.wheelSize,
+                no_of_cylinders: formData.noOfCylinders,
+                turbo_charger: formData.turboCharger,
+                height: formData.height,
+                gear_box: formData.gearBox,
+                tyre_type: formData.tyreType,
+                cargo_volumn: formData.cargoVolume,
+                city: "delhi", // Ajoutez ici la valeur pour la ville, si nécessaire
+            };
+    
             const response = await fetch("http://127.0.0.1:5000/predict", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ ...formData }),
+                body: JSON.stringify(transformedData),
             });
-
+    
             if (!response.ok) {
                 throw new Error("Error in prediction. Please check the inputs.");
             }
-
+    
             const data = await response.json();
             if (data.error) {
                 throw new Error(data.error);
             }
-
+    
             setPrediction(data.predicted_price); // Met à jour la prédiction
         } catch (err) {
             setError(err.message); // Enregistre l'erreur
         }
     };
+    
 
     return (
         <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-white">

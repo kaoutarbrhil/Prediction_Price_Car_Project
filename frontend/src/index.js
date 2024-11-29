@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
 import { ThemeProvider } from './contexts/ThemeContext'; // Assurez-vous que le ThemeProvider est importé
+import './i18n';
 
 ReactDOM.render(
   <ThemeProvider>  {/* Assurez-vous que le ThemeProvider englobe toute l'application */}

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useTheme } from '../contexts/ThemeContext'; // Si vous avez un contexte global pour le thème
+import React, { useState } from 'react';
 import { FaCog, FaLanguage, FaBell, FaSun, FaMoon } from 'react-icons/fa';
 import '../css/Settings.css';
 const Settings = () => {

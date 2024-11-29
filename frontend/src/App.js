@@ -8,7 +8,8 @@ import SideNavBar from "./pages/SideNavBar";
 import Settings from "./pages/Settings";
 import PredictionPage from "./pages/PredictionPage";
 import Compte from "./pages/Compte";
-
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 const App = () => {
   return (
     <Router>
@@ -27,7 +28,11 @@ const App = () => {
                 <Route  path="/Paramètres" element={<Settings />} />
                 <Route path="*" element={<NotFound />} />
                 <Route  path="/Compte" element={<Compte />} />
+               
+
             </Route>
+            <Route  path="/login" element={<Login />} /> 
+            <Route  path="/signup" element={<Signup />} /> 
       </Routes>
     </Router>
   );
