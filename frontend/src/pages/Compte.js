@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaUser, FaEnvelope, FaLock, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom";
 import '../css/Compte.css';
 
 const Compte = () => {
@@ -7,18 +8,26 @@ const Compte = () => {
   const [userInfo, setUserInfo] = useState(null); // Initially null
   const [editedInfo, setEditedInfo] = useState({});
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const navigate = useNavigate();
 
-  const userId = 1; // Replace with dynamic user ID (e.g., from authentication)
+
+  //const userId = 1; // Replace with dynamic user ID (e.g., from authentication)
+  // Remplacer userId par un id dynamique, récupéré depuis le localStorage ou un contexte global
+  const userId = localStorage.getItem('userId'); // Stocké après la connexion
+
 
   useEffect(() => {
-    // Fetch user details on component load
-    fetch(`http://127.0.0.1:5000/user/${userId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setUserInfo(data);
-        setEditedInfo(data);
-      })
-      .catch((error) => console.error('Error fetching user:', error));
+    if (!userId) {
+      navigate("/login"); // Rediriger si l'utilisateur n'est pas connecté
+    } else {
+      fetch(`http://127.0.0.1:5000/user/${userId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setUserInfo(data);
+          setEditedInfo(data);
+        })
+        .catch((error) => console.error('Error fetching user:', error));
+    }
   }, [userId]);
 
   const handleEditToggle = () => {
