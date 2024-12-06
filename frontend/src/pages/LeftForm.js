@@ -9,15 +9,15 @@ const manufacturers = [
 
 const LeftForm = ({ formData, handleInputChange }) => {
     return (
-        <div className="p-6 bg-gray-800 text-white rounded-md shadow-md">
+        <div className="p-6 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-md shadow-md">
             <form className="space-y-6">
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-300">Manufacturer:</label>
+                    <label className="block text-sm font-medium dark:text-gray-300">Manufacturer:</label>
                     <select
                         name="manufacturer"
                         value={formData.manufacturer}
                         onChange={handleInputChange}
-                        className="w-full p-3 rounded-md bg-gray-700 border border-gray-600 text-white focus:ring focus:ring-orange-400"
+                        className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
                     >
                         <option value="">Select</option>
                         {manufacturers.map((manufacturer) => (
@@ -29,12 +29,12 @@ const LeftForm = ({ formData, handleInputChange }) => {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-300">Fuel Type:</label>
+                    <label className="block text-sm font-medium dark:text-gray-300">Fuel Type:</label>
                     <select
                         name="fuelType"
                         value={formData.fuelType}
                         onChange={handleInputChange}
-                        className="w-full p-3 rounded-md bg-gray-700 border border-gray-600 text-white focus:ring focus:ring-orange-400"
+                        className="w-full p-3 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
                     >
                         <option value="">Select</option>
                         <option value="petrol">Petrol</option>
@@ -46,12 +46,12 @@ const LeftForm = ({ formData, handleInputChange }) => {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-300">Body Type:</label>
+                    <label className="block text-sm font-medium dark:text-gray-300">Body Type:</label>
                     <select
                         name="bodyType"
                         value={formData.bodyType}
                         onChange={handleInputChange}
-                        className="w-full p-3 rounded-md bg-gray-700 border border-gray-600 text-white focus:ring focus:ring-orange-400"
+                        className="w-full p-3 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
                     >
                         <option value="">Select</option>
                         <option value="suv">SUV</option>
@@ -66,12 +66,12 @@ const LeftForm = ({ formData, handleInputChange }) => {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-300">Transmission:</label>
+                    <label className="block text-sm font-medium dark:text-gray-300">Transmission:</label>
                     <select
                         name="transmission"
                         value={formData.transmission}
                         onChange={handleInputChange}
-                        className="w-full p-3 rounded-md bg-gray-700 border border-gray-600 text-white focus:ring focus:ring-orange-400"
+                        className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
                     >
                         <option value="">Select</option>
                         <option value="manual">Manual</option>
@@ -80,12 +80,12 @@ const LeftForm = ({ formData, handleInputChange }) => {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-300">Insurance:</label>
+                    <label className="block text-sm font-medium dark:text-gray-300">Insurance:</label>
                     <select
                         name="insurance"
                         value={formData.insurance}
                         onChange={handleInputChange}
-                        className="w-full p-3 rounded-md bg-gray-700 border border-gray-600 text-white focus:ring focus:ring-orange-400"
+                        className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
                     >
                         <option value="">Select</option>
                         <option value="third party">Third Party</option>
@@ -96,12 +96,12 @@ const LeftForm = ({ formData, handleInputChange }) => {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-300">Turbo Charger:</label>
+                    <label className="block text-sm font-medium dark:text-gray-300">Turbo Charger:</label>
                     <select
                         name="turboCharger"
                         value={formData.turboCharger}
                         onChange={handleInputChange}
-                        className="w-full p-3 rounded-md bg-gray-700 border border-gray-600 text-white focus:ring focus:ring-orange-400"
+                        className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
                     >
                         <option value="">Select</option>
                         <option value="yes">Yes</option>
@@ -112,12 +112,12 @@ const LeftForm = ({ formData, handleInputChange }) => {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-300">Tyre Type:</label>
+                    <label className="block text-sm font-medium dark:text-gray-300">Tyre Type:</label>
                     <select
                         name="tyreType"
                         value={formData.tyreType}
                         onChange={handleInputChange}
-                        className="w-full p-3 rounded-md bg-gray-700 border border-gray-600 text-white focus:ring focus:ring-orange-400"
+                        className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
                     >
                         <option value="">Select</option>
                         <option value="tubeless radial">Tubeless Radial</option>

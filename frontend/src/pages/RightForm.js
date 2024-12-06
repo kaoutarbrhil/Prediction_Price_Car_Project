@@ -105,8 +105,8 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
     
 
     return (
-        <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-white">
-            <h1 className="text-red-700 text-2xl font-bold text-center mb-8">Please fill car specifications</h1>
+        <div className="dark:bg-gray-800 bg-white p-6 rounded-lg shadow-lg dark:text-white">
+            <h1 className="text-blue-600 dark:text-red-700 text-2xl font-bold text-center mb-8">Please fill car specifications</h1>
             <form className="space-y-6">
                 <div className="grid grid-cols-3 gap-4">
                     {/* Model Year */}
@@ -116,7 +116,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                             name="modelYear"
                             value={formData.modelYear}
                             onChange={handleInputChange}
-                            className="p-2 rounded-md bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring focus:ring-orange-500"
+                            className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
                         >
                             {modelYears.map((year) => (
                                 <option key={year} value={year}>
@@ -134,7 +134,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                             name="kilometersDriven"
                             value={formData.kilometersDriven}
                             onChange={handleInputChange}
-                            className="p-2 rounded-md bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring focus:ring-orange-500"
+                            className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
                         />
                     </div>
 
@@ -145,7 +145,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                             name="ownerNo"
                             value={formData.ownerNo}
                             onChange={handleInputChange}
-                            className="p-2 rounded-md bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring focus:ring-orange-500"
+                            className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
                         >
                             <option value="">Select</option>
                             <option value="1">1</option>
@@ -164,7 +164,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                             name="engineSize"
                             value={formData.engineSize}
                             onChange={handleInputChange}
-                            className="p-2 rounded-md bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring focus:ring-orange-500"
+                            className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
                         />
                     </div>
 
@@ -176,7 +176,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                             name="torque"
                             value={formData.torque}
                             onChange={handleInputChange}
-                            className="p-2 rounded-md bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring focus:ring-orange-500"
+                            className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
                         />
                     </div>
 
@@ -188,7 +188,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                             name="maxPower"
                             value={formData.maxPower}
                             onChange={handleInputChange}
-                            className="p-2 rounded-md bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring focus:ring-orange-500"
+                            className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
                         />
                     </div>
                 </div>
@@ -202,7 +202,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                             name="gearBox"
                             value={formData.gearBox}
                             onChange={handleInputChange}
-                            className="p-2 rounded-md bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring focus:ring-orange-500"
+                            className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
                         />
                     </div>
 
@@ -214,7 +214,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                             name="noOfCylinders"
                             value={formData.noOfCylinders}
                             onChange={handleInputChange}
-                            className="p-2 rounded-md bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring focus:ring-orange-500"
+                            className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
                         />
                     </div>
 
@@ -226,7 +226,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                             name="wheelSize"
                             value={formData.wheelSize}
                             onChange={handleInputChange}
-                            className="p-2 rounded-md bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring focus:ring-orange-500"
+                            className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
                         />
                     </div>
                 </div>
@@ -240,7 +240,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                             name="height"
                             value={formData.height}
                             onChange={handleInputChange}
-                            className="p-2 rounded-md bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring focus:ring-orange-500"
+                            className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
                         />
                     </div>
 
@@ -252,7 +252,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                             name="cargoVolume"
                             value={formData.cargoVolume}
                             onChange={handleInputChange}
-                            className="p-2 rounded-md bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring focus:ring-orange-500"
+                            className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
                         />
                     </div>
                 </div>
