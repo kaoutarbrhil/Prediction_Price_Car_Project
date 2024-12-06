@@ -4,7 +4,7 @@ import { Link as ScrollLink } from 'react-scroll';
 import { useNavigate } from 'react-router-dom';
 import FeedBack from "./Feedback";
 import Fonctionnalites from './Fonctionnalites';
-import carImage from 'C:/Users/Aya/Prediction_Car_Price_Project2/Prediction_Car_Price_Project/sales-prediction-app/frontend/src/img/MBCAN-2022-AMG-GT53-4DR-COUPE-AVP-DR.webp';
+import carImage from '../../../MBCAN-2022-AMG-GT53-4DR-COUPE-AVP-DR.webp';
 import car1 from '../../../img/download.jpg'
 import car2 from '../../../img/images1.jpg'
 import car3 from '../../../img/images2.jpg'
