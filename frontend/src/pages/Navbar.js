@@ -6,15 +6,15 @@ import { useTranslation } from 'react-i18next';
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [showLanguageOptions, setShowLanguageOptions] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   // Sections de la page
   const sections = [
-    { label: "Accueil", id: "acceuil" },
-    { label: "Fonctionnalités", id: "features" },
-    { label: "Contact", id: "Questions" },
+    { label: t("accueil"), id: "acceuil" },
+    { label: t("fonctionnalites"), id: "features" },
+    { label: t("contact"), id: "Questions" },
   ];
 
   // Gestion du scroll
@@ -79,13 +79,19 @@ export default function Navbar() {
                 onClick={() => handleLanguageChange('en')}
                 className="block px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-600"
               >
-                English
+                En
               </button>
               <button
                 onClick={() => handleLanguageChange('fr')}
                 className="block px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-600"
               >
-                Français
+                Fr
+              </button>
+              <button
+                onClick={() => handleLanguageChange('hi')}
+                className="block px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-600"
+              >
+                Hi
               </button>
             </div>
           )}
@@ -111,7 +117,7 @@ export default function Navbar() {
             isDarkMode ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-white text-blue-600 hover:bg-gray-100'
           }`}
         >
-          Se connecter
+          {t('connect')}
         </button>
       </div>
     </nav>

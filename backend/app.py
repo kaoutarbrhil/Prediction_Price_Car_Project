@@ -11,32 +11,36 @@ app = Flask(__name__)
 
 # Configuration de la base de données
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///PredictionHistory.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///PredictionHistory.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 CORS(app)  # Autoriser les requêtes entre origines (frontend-backend)
 
 # Chargement des modèles et des fichiers de transformation
-MODEL_PATH = "C:/Users/Aya/Prediction_Car_Price_Project2/Prediction_Car_Price_Project/sales-prediction-app/backend/"
+MODEL_PATH = "C:/Users/DELL/Desktop/Prediction_Car_Price_Project/sales-prediction-app/backend/"
 with open(f"{MODEL_PATH}car_price_model3.pkl", "rb") as model_file:
     model = pickle.load(model_file)
 
 with open(f"{MODEL_PATH}scaler3.pkl", "rb") as scaler_file:
     scaler = pickle.load(scaler_file)
 
-
 # Point de test pour vérifier si le backend fonctionne
 @app.route('/')
 def index():
     return "Le backend fonctionne correctement !"
 
-# Route pour prédire le prix d'une voiture
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
         # Recevoir les données JSON
-        input_data = request.json  
+        input_data = request.json
+
+        # Récupérer l'ID utilisateur depuis l'en-tête Authorization
+        user_id = request.headers.get('Authorization')
+
+        if not user_id:
+            return jsonify({"error": "Utilisateur non connecté"}), 401  # L'utilisateur doit être connecté
 
         # Convertir les données en DataFrame
         input_df = pd.DataFrame([input_data])
@@ -44,8 +48,8 @@ def predict():
         input_df = pd.get_dummies(input_df).reindex(columns=model.feature_names_in_, fill_value=0)
 
         numerical_cols = [
-        'kilometers_driven', 'owner_no', 'model_year', 'engine', 'max_power', 
-        'torque', 'wheel_size', 'no_of_cylinders', 'height', 'gear_box', 'cargo_volumn'
+            'kilometers_driven', 'owner_no', 'model_year', 'engine', 'max_power', 
+            'torque', 'wheel_size', 'no_of_cylinders', 'height', 'gear_box', 'cargo_volumn'
         ]
 
         input_df[numerical_cols] = scaler.transform(input_df[numerical_cols])
@@ -53,11 +57,25 @@ def predict():
         # Faire la prédiction
         prediction = model.predict(input_df)[0]
 
+        # Enregistrer l'historique de la prédiction dans la base de données
+        prediction_history = Prediction_History(
+            manufacturer=input_data['manufacturer'],
+            fuel_type=input_data['fuel_type'],
+            transmission=input_data['transmission'],
+            model_year=input_data['model_year'],
+            kms_driven=input_data['kilometers_driven'],
+            num_owners=input_data['owner_no'],
+            predicted_price=prediction,
+            user_id=user_id  # Utilisation de l'ID de l'utilisateur récupéré
+        )
+        
+        db.session.add(prediction_history)
+        db.session.commit()
+
         return jsonify({"predicted_price": prediction})
 
     except Exception as e:
         return jsonify({"error": str(e)}), 400
-
 
 # Modèle de base de données pour les utilisateurs
 class User(db.Model):
@@ -67,7 +85,7 @@ class User(db.Model):
     password = db.Column(db.String(150), nullable=False)
 
 # Modèle pour l'historique des prédictions
-class PredictionHistory(db.Model):
+class Prediction_History(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     manufacturer = db.Column(db.String(255), nullable=False)
     fuel_type = db.Column(db.String(50), nullable=False)
@@ -78,6 +96,9 @@ class PredictionHistory(db.Model):
     predicted_price = db.Column(db.Float, nullable=False)
     timestamp = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    # Définir la relation pour accéder facilement aux utilisateurs
+    user = db.relationship('User', backref=db.backref('predictions', lazy=True))
 
 # Créer la base de données
 with app.app_context():
@@ -154,48 +175,40 @@ def update_user(user_id):
 
         session.commit()
         return jsonify({'message': 'User updated successfully'}), 200
-    
-    
-    # Route pour afficher l'historique des prédictions pour un utilisateur spécifique
+
+# Route pour l'historique des prédictions
 @app.route('/history', methods=['GET'])
 def get_prediction_history():
     try:
-        # Récupérer l'utilisateur connecté (ici, on utilise un ID fixe pour l'exemple)
-        user_id = 1  # Remplacer par l'ID de l'utilisateur authentifié
-        
+        # Récupérer l'ID utilisateur depuis l'en-tête Authorization
+        user_id = request.headers.get('Authorization')
+
+        if not user_id:
+            return jsonify({"error": "Utilisateur non connecté"}), 401  # L'utilisateur doit être connecté
+
         # Récupérer toutes les prédictions liées à l'utilisateur
-        predictions = PredictionHistory.query.filter_by(user_id=user_id).all()
-        
+        predictions = Prediction_History.query.filter_by(user_id=user_id).all()
+
         predictions_list = []
         for prediction in predictions:
             predictions_list.append({
                 'id': prediction.id,
                 'manufacturer': prediction.manufacturer,
                 'fuel_type': prediction.fuel_type,
-                'body_type': prediction.body_type,
                 'transmission': prediction.transmission,
-                'insurance': prediction.insurance,
-                'turbo_charger': prediction.turbo_charger,
-                'tyre_type': prediction.tyre_type,
                 'model_year': prediction.model_year,
-                'engine_size': prediction.engine_size,
-                'kilometers_driven': prediction.kilometers_driven,
-                'torque': prediction.torque,
-                'max_power': prediction.max_power,
-                'gear_box': prediction.gear_box,
-                'no_of_cylinders': prediction.no_of_cylinders,
-                'wheel_size': prediction.wheel_size,
-                'height': prediction.height,
-                'cargo_volume': prediction.cargo_volume,
-                'owner_no': prediction.owner_no,
+                'kms_driven': prediction.kms_driven,
+                'num_owners': prediction.num_owners,
                 'predicted_price': prediction.predicted_price,
                 'timestamp': prediction.timestamp
             })
-        
+
         return jsonify(predictions_list)
-    
+
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+	

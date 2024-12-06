@@ -25,6 +25,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
         return isPropFormDataEmpty ? defaultFormData : propFormData; 
     });
     console.log("FormData : ",formData)
+    const [errors, seterrors] = useState({});
 
     // Mise à jour de formData si propFormData change
     useEffect(() => {
@@ -41,15 +42,42 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        // Si la valeur est un nombre, on la convertit en numérique
         const numericValue = value.trim() === "" ? "" : isNaN(value) ? value : parseFloat(value);
     
+        // Mettre à jour formData
         setLocalFormData((prevData) => ({
             ...prevData,
             [name]: numericValue,
         }));
-        setFormData(prevData => ({ ...prevData, [name]: numericValue }));
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: numericValue,
+        }));
+    
+        // Gérer les validations spécifiques
+        const newerrors = { ...errors };
+    
+        if (name === "engineSize" && numericValue < 500) {
+            newerrors.engineSize = "Engine size must be at least 500.";
+        } else if (name === "torque" && numericValue < 50) {
+            newerrors.torque = "Torque must be at least 50.";
+        } else if (name === "maxPower" && numericValue < 30) {
+            newerrors.maxPower = "Max power must be at least 30.";
+        } else if (name === "gearBox" && numericValue < 3) {
+            newerrors.gearBox = "Gearbox must have at least 3 speeds.";
+        } else if (name === "noOfCylinders" && numericValue < 2) {
+            newerrors.noOfCylinders = "Number of cylinders must be at least 2.";
+        } else if (name === "wheelSize" && numericValue < 10) {
+            newerrors.wheelSize = "Wheel size must be at least 10.";
+        } else if (name === "height" && numericValue < 1000) {
+            newerrors.height = "Height must be at least 1000.";
+        } else {
+            delete newerrors[name];
+        }
+    
+        seterrors(newerrors);
     };
+    
     
 
     const handlePrediction = async () => {
@@ -77,13 +105,16 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                 gear_box: formData.gearBox,
                 tyre_type: formData.tyreType,
                 cargo_volumn: formData.cargoVolume,
-                city: "delhi", // Ajoutez ici la valeur pour la ville, si nécessaire
+                city: "delhi",
             };
+    
+            const userId = localStorage.getItem('userId');  // Remplacez ceci par la méthode d'accès à l'ID de l'utilisateur
     
             const response = await fetch("http://127.0.0.1:5000/predict", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": userId,  // Ajouter l'ID utilisateur dans l'en-tête
                 },
                 body: JSON.stringify(transformedData),
             });
@@ -97,13 +128,12 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                 throw new Error(data.error);
             }
     
-            setPrediction(data.predicted_price); // Met à jour la prédiction
+            setPrediction(data.predicted_price);
         } catch (err) {
-            setError(err.message); // Enregistre l'erreur
+            setError(err.message);
         }
     };
     
-
     return (
         <div className="dark:bg-gray-800 bg-white p-6 rounded-lg shadow-lg dark:text-white">
             <h1 className="text-blue-600 dark:text-red-700 text-2xl font-bold text-center mb-8">Please fill car specifications</h1>
@@ -157,91 +187,141 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
 
                 <div className="grid grid-cols-3 gap-4">
                     {/* Engine Size */}
-                    <div className="flex flex-col">
+                    <div className="flex flex-col relative">
                         <label className="mb-2 text-sm font-medium">Engine Size (cc):</label>
                         <input
                             type="number"
                             name="engineSize"
                             value={formData.engineSize}
                             onChange={handleInputChange}
-                            className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
+                            className={`w-full p-2 rounded-md ${
+                                errors.engineSize ? "bg-red-50 border-red-500" : "bg-blue-50"
+                            } dark:bg-gray-700 border border-gray-600`}
                         />
+                        {errors.engineSize && (
+                            <span className="text-xs text-red-500 absolute top-full mt-1">
+                                {errors.engineSize}
+                            </span>
+                        )}
                     </div>
 
                     {/* Torque */}
-                    <div className="flex flex-col">
+                    <div className="flex flex-col relative">
                         <label className="mb-2 text-sm font-medium">Torque (Nm):</label>
                         <input
                             type="number"
                             name="torque"
                             value={formData.torque}
                             onChange={handleInputChange}
-                            className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
+                            className={`w-full p-2 rounded-md ${
+                                errors.torque ? "bg-red-50 border-red-500" : "bg-blue-50"
+                            } dark:bg-gray-700 border border-gray-600`}
                         />
+                        {errors.torque && (
+                            <span className="text-xs text-red-500 absolute top-full mt-1">
+                                {errors.torque}
+                            </span>
+                        )}
                     </div>
 
                     {/* Max Power */}
-                    <div className="flex flex-col">
-                        <label className="mb-2 text-sm font-medium">Max Power (bhp):</label>
+                    <div className="flex flex-col relative">
+                        <label className="mb-2 text-sm font-medium">Max Power (HP):</label>
                         <input
                             type="number"
                             name="maxPower"
                             value={formData.maxPower}
                             onChange={handleInputChange}
-                            className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
+                            className={`w-full p-2 rounded-md ${
+                                errors.maxPower ? "bg-red-50 border-red-500" : "bg-blue-50"
+                            } dark:bg-gray-700 border border-gray-600`}
                         />
+                        {errors.maxPower && (
+                            <span className="text-xs text-red-500 absolute top-full mt-1">
+                                {errors.maxPower}
+                            </span>
+                        )}
                     </div>
                 </div>
 
                 <div className="grid grid-cols-3 gap-4">
                     {/* Gear Box */}
-                    <div className="flex flex-col">
+                    <div className="flex flex-col relative">
                         <label className="mb-2 text-sm font-medium">Gear Box (Speeds):</label>
                         <input
                             type="number"
                             name="gearBox"
                             value={formData.gearBox}
                             onChange={handleInputChange}
-                            className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
+                            className={`w-full p-2 rounded-md ${
+                                errors.gearBox ? "bg-red-50 border-red-500" : "bg-blue-50"
+                            } dark:bg-gray-700 border border-gray-600`}
                         />
+                        {errors.gearBox && (
+                            <span className="text-xs text-red-500 absolute top-full mt-1">
+                                {errors.gearBox}
+                            </span>
+                        )}
                     </div>
 
                     {/* Number of Cylinders */}
-                    <div className="flex flex-col">
+                    <div className="flex flex-col relative">
                         <label className="mb-2 text-sm font-medium">Number of Cylinders:</label>
                         <input
                             type="number"
                             name="noOfCylinders"
                             value={formData.noOfCylinders}
                             onChange={handleInputChange}
-                            className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
+                            className={`w-full p-2 rounded-md ${
+                                errors.noOfCylinders ? "bg-red-50 border-red-500" : "bg-blue-50"
+                            } dark:bg-gray-700 border border-gray-600`}
                         />
+                        {errors.noOfCylinders && (
+                            <span className="text-xs text-red-500 absolute top-full mt-1">
+                                {errors.noOfCylinders}
+                            </span>
+                        )}
                     </div>
 
                     {/* Wheel Size */}
-                    <div className="flex flex-col">
+                    <div className="flex flex-col relative">
                         <label className="mb-2 text-sm font-medium">Wheel Size:</label>
                         <input
                             type="number"
                             name="wheelSize"
                             value={formData.wheelSize}
                             onChange={handleInputChange}
-                            className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
+                            className={`w-full p-2 rounded-md ${
+                                errors.wheelSize ? "bg-red-50 border-red-500" : "bg-blue-50"
+                            } dark:bg-gray-700 border border-gray-600`}
                         />
+                        {errors.wheelSize && (
+                            <span className="text-xs text-red-500 absolute top-full mt-1">
+                                {errors.wheelSize}
+                            </span>
+                        )}
                     </div>
+
                 </div>
 
                 <div className="grid grid-cols-3 gap-4">
                     {/* Height */}
-                    <div className="flex flex-col">
+                    <div className="flex flex-col relative">
                         <label className="mb-2 text-sm font-medium">Height (mm):</label>
                         <input
                             type="number"
                             name="height"
                             value={formData.height}
                             onChange={handleInputChange}
-                            className="w-full p-2 rounded-md bg-blue-50 dark:bg-gray-700 border border-gray-600 dark:text-white focus:ring dark:focus:ring-orange-400 focus:ring-blue-400"
+                            className={`w-full p-2 rounded-md ${
+                                errors.height ? "bg-red-50 border-red-500" : "bg-blue-50"
+                            } dark:bg-gray-700 border border-gray-600 dark:text-white`}
                         />
+                        {errors.height && (
+                            <span className="text-xs text-red-500 absolute top-full mt-1">
+                                {errors.height}
+                            </span>
+                        )}
                     </div>
 
                     {/* Cargo Volume */}
@@ -275,6 +355,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                     </button>
                 </div>
             </form>
+
              {/* Résultat de la prédiction */}
              {prediction !== null && (
                 <div className="mt-4 p-4 bg-green-700 rounded-lg text-center">
@@ -293,3 +374,5 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
 };
 
 export default RightForm;
+
+	

@@ -119,7 +119,7 @@ import {
   FaSignOutAlt,
 } from 'react-icons/fa';
 
-export default function SideNavBar() {
+export default function SideNavBar({setUserId }) {
   const [isExpanded, setExpandState] = useState(true);
 
   const menuItems = [
@@ -128,6 +128,11 @@ export default function SideNavBar() {
     { text: 'Compte', icon: <FaUserAlt />, path: "Compte" },
     { text: 'Paramètres', icon: <FaCog />, path: "Paramètres" },
   ];
+  const handleLogout = () => {
+    localStorage.clear();
+    setUserId(null);  // Mettez à jour l'état userId
+  };
+  
 
   return (
     <div className="flex h-screen">
@@ -182,6 +187,7 @@ export default function SideNavBar() {
           )}
           <Link
             to="/"
+            onClick={handleLogout}
             className="flex items-center gap-3 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-lg"
           >
             <FaSignOutAlt className="text-xl" />

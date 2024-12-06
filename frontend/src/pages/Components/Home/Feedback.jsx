@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const FeedBack = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -32,7 +34,7 @@ const FeedBack = () => {
       });
 
       if (response.ok) {
-        setSuccessMessage('Votre message a été envoyé avec succès !');
+        setSuccessMessage(t('formSuccessMessage'));
         setErrorMessage('');
         setFormData({ name: '', email: '', subject: '', message: '' }); // Réinitialiser le formulaire
       } else {
@@ -41,7 +43,7 @@ const FeedBack = () => {
         setSuccessMessage('');
       }
     } catch (error) {
-      setErrorMessage('Erreur lors de l\'envoi. Veuillez réessayer.');
+      setErrorMessage(t('formErrorMessage'));
       setSuccessMessage('');
     }
   };
@@ -49,10 +51,10 @@ const FeedBack = () => {
   return (
     <div className="flex-grow flex flex-col items-center justify-center bg-gradient-to-r from-blue-500 to-purple-500 py-12 px-4 sm:px-6 lg:px-8 transform transition-all duration-700 hover:scale-105 hover:bg-gradient-to-l">
       <h1 className="text-2xl font-bold text-white mb-4">
-        Prenez contact avec notre équipe commerciale
+        {t('feedBackTitle')}      
       </h1>
       <h2 className="text-white text-lg text-center mb-6">
-        Vous avez une question générale sur notre produit, nos plans ou autre chose ?
+        {t('feedBackSubtitle')}
       </h2>
       <form
         onSubmit={handleSubmit}
@@ -63,7 +65,7 @@ const FeedBack = () => {
         <input
           type="text"
           name="name"
-          placeholder="Nom"
+          placeholder={t('formNamePlaceholder')}
           value={formData.name}
           onChange={handleInputChange}
           required
@@ -72,7 +74,7 @@ const FeedBack = () => {
         <input
           type="email"
           name="email"
-          placeholder="Email"
+          placeholder={t('formEmailPlaceholder')}
           value={formData.email}
           onChange={handleInputChange}
           required
@@ -81,7 +83,7 @@ const FeedBack = () => {
         <input
           type="text"
           name="subject"
-          placeholder="Sujet"
+          placeholder={t('formSubjectPlaceholder')}
           value={formData.subject}
           onChange={handleInputChange}
           required
@@ -89,7 +91,7 @@ const FeedBack = () => {
         />
         <textarea
           name="message"
-          placeholder="Message"
+          placeholder={t('formMessagePlaceholder')}
           value={formData.message}
           onChange={handleInputChange}
           required
@@ -108,7 +110,7 @@ const FeedBack = () => {
           type="submit"
           className="w-full bg-blue-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
         >
-          Envoyer
+          {t('formSubmitButton')}
         </button>
       </form>
     </div>

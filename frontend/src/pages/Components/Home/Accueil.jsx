@@ -4,11 +4,12 @@ import { Link as ScrollLink } from 'react-scroll';
 import { useNavigate } from 'react-router-dom';
 import FeedBack from "./Feedback";
 import Fonctionnalites from './Fonctionnalites';
-import carImage from 'C:/Users/Aya/Prediction_Car_Price_Project2/Prediction_Car_Price_Project/sales-prediction-app/frontend/src/img/MBCAN-2022-AMG-GT53-4DR-COUPE-AVP-DR.webp';
+import carImage from '../../../img/MBCAN-2022-AMG-GT53-4DR-COUPE-AVP-DR.webp';
 import car1 from '../../../img/download.jpg'
 import car2 from '../../../img/images1.jpg'
 import car3 from '../../../img/images2.jpg'
 import car4 from '../../../img/images.jpg'
+import { useTranslation } from 'react-i18next';
 
 const Acceuil = () => {
   
@@ -16,7 +17,7 @@ const Acceuil = () => {
     const user_id = localStorage.getItem('userId');
     console.log("user ID is : " +user_id);
     user_id ? console.log("user id is not null") : console.log("user id is null")  
-
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const handleClick = () => {
@@ -38,10 +39,10 @@ const Acceuil = () => {
           </div>
           <div className="md:w-1/2 flex flex-col items-start ml-4">
             <h1 className="md:text-5xl text-3xl font-bold text-white mb-4">
-              Prédisez le Prix Idéal de Votre Voiture
+              {t('welcome')}           
             </h1>
             <p className="text-white mb-6">
-              Exploitez la puissance de l'IA pour analyser les tendances du marché et déterminer les prix justes des voitures.
+              {t('description')}
             </p>
             <div className="flex space-x-4 mb-6">
               <ScrollLink to="offre" smooth={true} duration={500}>
@@ -49,7 +50,7 @@ const Acceuil = () => {
                 onClick={handleClick}
                 className="bg-yellow-500 text-white px-6 py-3 rounded transition-all duration-300 ease-in-out hover:bg-yellow-400 transform hover:scale-105 shadow-lg"
                 >
-                Essayez Maintenant
+                {t('tryNow')}
                 </button>
               </ScrollLink>
             </div>
@@ -77,7 +78,7 @@ const Acceuil = () => {
                 />
               </div>
               <p className="text-lg text-white mb-4 font-semibold mt-4">
-                Trouvez le prix parfait pour votre voiture dès aujourd'hui !
+                {t('findPrice')}
               </p>
             </div>
           </div>

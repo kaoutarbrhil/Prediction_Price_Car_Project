@@ -12,6 +12,11 @@ const cities = [
 ];
 
 export default function PredictionPage() {
+
+    const user_id = localStorage.getItem('userId');
+    console.log("user ID is : " +user_id);
+    user_id ? console.log("user id is not null") : console.log("user id is null") 
+
     const [selectedCity, setSelectedCity] = useState(null);
     const [formData, setFormData] = useState({
         manufacturer: "",
@@ -21,17 +26,17 @@ export default function PredictionPage() {
         insurance: "",
         turboCharger: "",
         tyreType: "",
-        modelYear: "",
-        engineSize: "",
-        gearBox: "",
-        height: "",
-        kilometersDriven: "",
-        torque: "",
-        noOfCylinders: "",
-        cargoVolume: "",
+        modelYear: "",  // La valeur par défaut peut être vide
+        engineSize: 1400.0,  // Valeur par défaut
+        gearBox: 5,  // Valeur par défaut
+        height: 1500.0,  // Valeur par défaut
+        kilometersDriven: 0.0,  // Valeur par défaut
+        torque: 180.0,  // Valeur par défaut
+        noOfCylinders: 4,  // Valeur par défaut
+        cargoVolume: 350.0,  // Valeur par défaut
         ownerNo: "",
-        maxPower: "",
-        wheelSize: "",
+        maxPower: 105.0,  // Valeur par défaut
+        wheelSize: 15.75,
     });
 
     const handleCancel = () => {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";  // Importez useNavigate
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ setUserId }) => { // Recevoir setUserId en tant que prop
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -32,8 +32,10 @@ const Login = () => {
           password: formData.password,
         }),
       });
-
+      
       const data = await response.json();
+      console.log(data); // Vérifiez la réponse avant la redirection
+      
 
       if (response.ok) {
         // Si la connexion est réussie
@@ -42,6 +44,9 @@ const Login = () => {
 
         // Stocker l'ID utilisateur dans le localStorage
         localStorage.setItem("userId", data.user.id);
+
+        // Mettre à jour l'état de l'ID utilisateur dans App.js
+        setUserId(data.user.id);
 
         navigate("/prediction"); // Rediriger vers la page /Prediction
       } else {

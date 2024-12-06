@@ -1,18 +1,21 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+
 
 const Fonctionnalites = () => {
+    const { t } = useTranslation();
     const features = [
-        { icon: '🚗', description: "Prédiction gratuite des prix de voitures importées", comingSoon: false },
-        { icon: '🧠', description: "Algorithmes avancés d'intelligence artificielle", comingSoon: false },
-        { icon: '📂', description: "Historique des prédictions accessible en un clic", comingSoon: false },
-        { icon: '🌍', description: "Une interface intuitive et accessible à tous", comingSoon: false },
-        { icon: '⚡', description: "Calcul rapide et précis en temps réel", comingSoon: false },
-        { icon: '⌚', description: "Accessible 24/7 depuis n'importe où", comingSoon: false },
-        { icon: '➕', description: "Et bien plus à venir...", comingSoon: false },
+        { icon: '🚗', description: t('features.predictionFree'), comingSoon: false },
+        { icon: '🧠', description: t('features.aiAlgorithms'), comingSoon: false },
+        { icon: '📂', description: t('features.historyAccess'), comingSoon: false },
+        { icon: '🌍', description: t('features.intuitiveInterface'), comingSoon: false },
+        { icon: '⚡', description: t('features.realTimeCalculation'), comingSoon: false },
+        { icon: '⌚', description: t('features.access24_7'), comingSoon: false },
+        { icon: '➕', description: t('features.comingSoon'), comingSoon: false },
       ];
 
   const planTarifaire = {
-    name: 'App Prédiction de Prix',
+    name: t('planTarifaireName'),
     utilisateurIllimite: true,
     rapportPersonnalise: true,
     suggestionsAutomatiques: true,
@@ -23,20 +26,23 @@ const Fonctionnalites = () => {
   };
 
   const avantages = [
-    { label: 'Prédiction précise des prix de voiture', key: 'predictionPrix' },
-    { label: 'Accès aux historiques de prédictions', key: 'historiquePredictions' },
-    { label: 'Interface simple et facile à utiliser', key: 'interfaceSimple' },
-    { label: 'Prédictions basées sur des données réelles', key: 'predictionsBaseesSurDonnees' },
-    { label: 'Gratuit et sans abonnement', key: 'applicationGratuite' },
-    { label: 'Création de compte rapide et sécurisée', key: 'creationCompteRapide' },
-    { label: 'Prédictions instantanées avec des résultats fiables', key: 'resultatsInstantanes' },
-];
+    { label: t('advantages.accuratePrediction'), key: 'accuratePrediction' },
+    { label: t('advantages.accessHistory'), key: 'accessHistory' },
+    { label: t('advantages.simpleInterface'), key: 'simpleInterface' },
+    { label: t('advantages.realData'), key: 'realData' },
+    { label: t('advantages.freeApp'), key: 'freeApp' },
+    { label: t('advantages.fastSignup'), key: 'fastSignup' },
+    { label: t('advantages.instantResults'), key: 'instantResults' },
+  ];
 
   return (
     <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
       {/* Section des fonctionnalités */}
       <section id="features">
-      <h2 className="text-3xl font-extrabold text-gray-900 mb-6 dark:text-white">Ce que vous gagnez  avec <b className='text-purple-800'>PredictCar</b>  😍 ?</h2>
+        <h2
+          className="text-3xl font-extrabold text-gray-900 mb-6 dark:text-white"
+          dangerouslySetInnerHTML={{ __html: t('advantagesTitle') }}
+        ></h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => (
             <div
@@ -57,9 +63,10 @@ const Fonctionnalites = () => {
 
       {/* Section Pourquoi notre app */}
       <section id="advantages" className="mt-16">
-        <h2 className="text-3xl font-extrabold text-gray-900 mb-6 dark:text-white">
-          Pourquoi <b className="text-purple-800">PredictCar</b> plutôt qu'une autre 😉 ?
-        </h2>
+        <h2
+          className="text-3xl font-extrabold text-gray-900 mb-6 dark:text-white"
+          dangerouslySetInnerHTML={{ __html: t("whyPredictCar") }}
+        ></h2>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border dark:bg-gray-600">
             <thead className="bg-gray-50 dark:bg-gray-600">

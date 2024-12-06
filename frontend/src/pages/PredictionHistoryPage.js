@@ -1,51 +1,84 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const PredictionHistoryPage = () => {
-  const [predictions, setPredictions] = useState([]);
-  const userId = localStorage.getItem('userId'); // Stocké après la connexion
+const PredictionHistory = () => {
+    const [predictions, setPredictions] = useState([]);
+    const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // Charger l'historique des prédictions depuis l'API backend
-    const fetchPredictionHistory = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/history');
-        const data = await response.json();
-        setPredictions(data);
-      } catch (error) {
-        console.error('Erreur lors du chargement de l\'historique des prédictions:', error);
-      }
-    };
+    useEffect(() => {
+        const fetchPredictionHistory = async () => {
+            try {
+                const userId = localStorage.getItem('userId'); // Récupérer l'ID utilisateur depuis le stockage local (assurez-vous qu'il est stocké lors de la connexion)
+                
+                if (!userId) {
+                    setError("Utilisateur non connecté");
+                    return;
+                }
 
-    fetchPredictionHistory();
-  }, []);
+                const response = await fetch('http://localhost:5000/history', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': userId // Inclure l'ID utilisateur dans les en-têtes
+                    }
+                });
 
-  return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-semibold text-center text-gray-800 mb-6">Historique des Prédictions de Prix</h1>
-      {predictions.length === 0 ? (
-        <p className="text-center text-red-500 text-lg">Aucune prédiction disponible.</p>
-      ) : (
-        <table className="min-w-full table-auto border-collapse">
-          <thead>
-            <tr className="bg-green-600 text-white">
-              <th className="px-4 py-2 text-left text-sm">Fabricant</th>
-              <th className="px-4 py-2 text-left text-sm">Prix prédit</th>
-              <th className="px-4 py-2 text-left text-sm">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {predictions.map((prediction) => (
-              <tr key={prediction.id} className="hover:bg-gray-100">
-                <td className="px-4 py-2 border-t text-sm text-gray-800">{prediction.manufacturer}</td>
-                <td className="px-4 py-2 border-t text-sm text-gray-800">{prediction.predicted_price}</td>
-                <td className="px-4 py-2 border-t text-sm text-gray-800">{prediction.timestamp}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
-  );
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la récupération de l’historique');
+                }
+
+                const data = await response.json();
+                if (Array.isArray(data) && data.length > 0) {
+                    setPredictions(data);
+                } else {
+                    setError("Aucune prédiction trouvée pour cet utilisateur");
+                }
+
+            } catch (err) {
+                setError(err.message);
+            }
+        };
+
+        fetchPredictionHistory();
+    }, []);
+
+    return (
+      <div className="bg-blue-50 min-h-screen p-6">
+          <h1 className="text-3xl font-bold text-center text-blue-600 mb-6">Historique des Prédictions</h1>
+          {error && <p className="text-red-500 text-center">{error}</p>}
+          <div className="overflow-x-auto shadow-md rounded-lg">
+              <table className="min-w-full bg-white border border-gray-200">
+                  <thead className="bg-blue-100 text-blue-700">
+                      <tr>
+                          <th className="py-3 px-4 border-b text-left">ID</th>
+                          <th className="py-3 px-4 border-b text-left">Fabricant</th>
+                          <th className="py-3 px-4 border-b text-left">Type de carburant</th>
+                          <th className="py-3 px-4 border-b text-left">Transmission</th>
+                          <th className="py-3 px-4 border-b text-left">Année du modèle</th>
+                          <th className="py-3 px-4 border-b text-left">Kilométrage</th>
+                          <th className="py-3 px-4 border-b text-left">Nombre de propriétaires</th>
+                          <th className="py-3 px-4 border-b text-left">Prix prédit</th>
+                          <th className="py-3 px-4 border-b text-left">Date</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {predictions.map((prediction) => (
+                          <tr key={prediction.id} className="hover:bg-blue-50">
+                              <td className="py-3 px-4 border-b">{prediction.id}</td>
+                              <td className="py-3 px-4 border-b">{prediction.manufacturer}</td>
+                              <td className="py-3 px-4 border-b">{prediction.fuel_type}</td>
+                              <td className="py-3 px-4 border-b">{prediction.transmission}</td>
+                              <td className="py-3 px-4 border-b">{prediction.model_year}</td>
+                              <td className="py-3 px-4 border-b">{prediction.kms_driven}</td>
+                              <td className="py-3 px-4 border-b">{prediction.num_owners}</td>
+                              <td className="py-3 px-4 border-b">{prediction.predicted_price}</td>
+                              <td className="py-3 px-4 border-b">{new Date(prediction.timestamp).toLocaleString()}</td>
+                          </tr>
+                      ))}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+    );
 };
 
-export default PredictionHistoryPage;
+export default PredictionHistory;
+
