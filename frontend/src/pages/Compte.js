@@ -28,6 +28,21 @@ const Compte = () => {
         })
         .catch((error) => console.error('Error fetching user:', error));
     }
+  }, [userId, navigate]);  
+
+
+  useEffect(() => {
+    if (!userId) {
+      navigate("/login"); // Rediriger si l'utilisateur n'est pas connecté
+    } else {
+      fetch(`http://127.0.0.1:5000/user/${userId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setUserInfo(data);
+          setEditedInfo(data);
+        })
+        .catch((error) => console.error('Error fetching user:', error));
+    }
   }, [userId]);
 
   const handleEditToggle = () => {

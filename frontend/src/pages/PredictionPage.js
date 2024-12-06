@@ -48,7 +48,7 @@ export default function PredictionPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white p-6">
+        <div className="min-h-screen text-gray-700 dark:text-white p-6">
             <h1 className="text-3xl font-bold mb-8 text-center">
                 Bonjour ! Bienvenue sur la page des prédictions.
             </h1>
@@ -56,12 +56,12 @@ export default function PredictionPage() {
             {/* Sélection de la ville */}
             {!selectedCity && (
                 <div className="text-center">
-                    <h2 className="text-xl font-semibold mb-4">Select a City:</h2>
+                    <h2 className="text-xl font-semibold mb-4 text-blue-600">Select a City:</h2>
                     <div className="flex flex-wrap justify-center gap-6">
                         {cities.map((city) => (
                             <div
                                 key={city.name}
-                                className="cursor-pointer border border-gray-700 rounded-lg p-4 hover:shadow-lg hover:bg-gray-800"
+                                className="cursor-pointer border border-blue-300 rounded-lg p-4 dark:bg-gray-800 bg-white hover:bg-blue-100 hover:shadow-xl dark:hover:bg-blue-800 transition-all ease-in-out duration-200"
                                 onClick={() => handleCitySelect(city.name)}
                             >
                                 <img
@@ -69,12 +69,13 @@ export default function PredictionPage() {
                                     alt={city.name}
                                     className="w-40 h-24 object-cover rounded-md mb-2"
                                 />
-                                <h3 className="text-lg font-medium">{city.name}</h3>
+                                <h3 className="text-lg font-medium text-gray-900 dark:text-white">{city.name}</h3>
                             </div>
                         ))}
                     </div>
                 </div>
             )}
+
 
             {/* Formulaires */}
             {selectedCity && (

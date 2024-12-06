@@ -42,8 +42,10 @@ const Login = () => {
 
         // Stocker l'ID utilisateur dans le localStorage
         localStorage.setItem("userId", data.user.id);
-        
-        navigate("/Prediction"); // Rediriger vers la page /Prediction
+        localStorage.setItem("userFullName", data.user.fullName);
+
+
+        navigate("/prediction"); // Rediriger vers la page /Prediction
       } else {
         // Si une erreur se produit (email ou mot de passe invalide)
         setErrorMessage(data.error);
