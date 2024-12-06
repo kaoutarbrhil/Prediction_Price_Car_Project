@@ -39,7 +39,11 @@ const Login = () => {
         // Si la connexion est réussie
         setSuccessMessage(data.message);
         setErrorMessage(""); // Réinitialiser les erreurs
-        navigate("/Prediction"); // Rediriger vers la page /Prediction
+
+        // Stocker l'ID utilisateur dans le localStorage
+        localStorage.setItem("userId", data.user.id);
+
+        navigate("/prediction"); // Rediriger vers la page /Prediction
       } else {
         // Si une erreur se produit (email ou mot de passe invalide)
         setErrorMessage(data.error);
