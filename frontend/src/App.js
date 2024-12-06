@@ -30,7 +30,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-
+        <Route path="/" element={<Layout><Acceuil /></Layout>} />  
 
         {userIdBool ? (
             <Route  element={<SideNavBar />}>
@@ -46,11 +46,6 @@ const App = () => {
             </Route>
         ) : (
             <Route>
-              {/* Route pour la page de connexion */}
-                <Route path="/" element={<Layout><Acceuil /></Layout>} />      
-        
-        {/* Route pour les pages non trouvées */}
-                {/*<Route path="*" element={<NotFound />} />*/}
                 <Route  path="/login" element={<Login />} /> 
                 <Route  path="/signup" element={<Signup />} />
         
