@@ -44,6 +44,8 @@ const Login = ({ setUserId }) => { // Recevoir setUserId en tant que prop
 
         // Stocker l'ID utilisateur dans le localStorage
         localStorage.setItem("userId", data.user.id);
+        localStorage.setItem("userFullName", data.user.fullName);
+
 
         // Mettre à jour l'état de l'ID utilisateur dans App.js
         setUserId(data.user.id);

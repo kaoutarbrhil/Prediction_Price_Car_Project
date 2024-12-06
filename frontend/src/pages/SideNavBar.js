@@ -128,6 +128,7 @@ export default function SideNavBar({setUserId }) {
     { text: 'Compte', icon: <FaUserAlt />, path: "Compte" },
     { text: 'Paramètres', icon: <FaCog />, path: "Paramètres" },
   ];
+  const [userName, setUserName] = useState("");
   const handleLogout = () => {
     localStorage.clear();
     setUserId(null);  // Mettez à jour l'état userId
@@ -180,7 +181,7 @@ export default function SideNavBar({setUserId }) {
             <div className="flex items-center mb-4">
               <FaUserAlt className="text-2xl mr-3" />
               <div>
-                <p className="font-semibold">Sana Barkouch</p>
+                <p className="font-semibold">{userName}</p>
                 <p className="text-sm text-gray-500 dark:text-gray-400">Utilisateur</p>
               </div>
             </div>

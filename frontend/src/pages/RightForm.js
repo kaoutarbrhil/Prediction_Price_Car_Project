@@ -359,7 +359,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
              {/* Résultat de la prédiction */}
              {prediction !== null && (
                 <div className="mt-4 p-4 bg-green-700 rounded-lg text-center">
-                    <p className="text-xl font-semibold">Predicted Price: ${prediction}</p>
+                    <p className="text-xl font-bold text-white">Predicted Price: {prediction.toFixed(2)} lakhs ₹</p>
                 </div>
             )}
 

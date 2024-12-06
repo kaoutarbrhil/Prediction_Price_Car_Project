@@ -207,6 +207,38 @@ def get_prediction_history():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+    
+# Route pour le formulaire de contact
+@app.route('/contact', methods=['POST'])
+def contact():
+    try:
+        # Récupérer les données envoyées dans le corps de la requête JSON
+        data = request.get_json()
+        name = data.get('name')
+        email = data.get('email')
+        subject = data.get('subject')
+        message = data.get('message')
+
+        # Valider les données (vous pouvez ajouter plus de validation selon votre besoin)
+        if not name or not email or not subject or not message:
+            return jsonify({'error': 'Tous les champs doivent être remplis.'}), 400
+
+        # Traitement des données (par exemple, enregistrement dans une base de données ou envoi par email)
+        # Enregistrer le message dans la base de données (optionnel)
+        # new_contact = ContactMessage(name=name, email=email, subject=subject, message=message)
+        # db.session.add(new_contact)
+        # db.session.commit()
+
+        # Si vous souhaitez envoyer un email (optionnel)
+        # msg = Message(subject, recipients=['admin@example.com'], body=message, sender=email)
+        # mail.send(msg)
+
+        # Réponse de succès
+        return jsonify({'message': 'Votre message a été envoyé avec succès.'}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)

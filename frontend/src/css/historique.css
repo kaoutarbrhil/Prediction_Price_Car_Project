@@ -1,0 +1,46 @@
+.historique-page {
+    background-color: #1a202c;
+    color: white;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+.historique-table {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #4A5568;
+}
+
+table th {
+    background-color: #2d3748;
+}
+
+table tr:nth-child(even) {
+    background-color: #4A5568;
+}
+
+table tr:hover {
+    background-color: #2D3748;
+}
+
+table td {
+    color: #EDF2F7;
+}
