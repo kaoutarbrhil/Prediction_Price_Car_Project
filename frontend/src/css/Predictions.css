@@ -1,0 +1,27 @@
+.predictions-container {
+    padding: 20px;
+    background: linear-gradient(120deg, #2196f3, #f57c00);
+    color: white;
+    min-height: 100vh;
+  }
+  
+  .predictions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .predictions-table th, .predictions-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .predictions-table th {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  
+  .predictions-table td {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  

@@ -1,0 +1,245 @@
+/* General styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.homepage-container {
+  min-height: 100vh;
+  background: linear-gradient(120deg, #4caf50, #81c784);
+  color: white;
+ 
+
+  background: url('../img/imagee.webp') no-repeat center center;
+  background-size: cover;
+  height: 100vh;
+  
+
+}
+
+/* Header styles */
+.homepage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* padding: 1rem 2rem; */
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px 20px;
+ 
+  color: white;
+
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  /* gap: 1rem; */
+}
+
+.app-logo {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+.navigation-menu {
+  display: flex;
+  gap: 20px;
+}
+
+
+.navigation-menu button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.navigation-menu button:hover {
+  color: #ff9800; /* Orange vibrant */
+}
+
+/* Header buttons */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-button {
+
+  margin-left: 20px; /* Espacement entre les boutons */
+  padding: 10px 20px; /* Ajustez le rembourrage selon vos préférences */
+  font-size: 16px; /* Ajustez la taille de la police selon vos préférences */
+  border: none;
+  border-radius: 5px;
+  
+  background-color: #f57c00;
+  color: #fff; /* Couleur du texte des boutons */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  
+}
+
+.header-button:hover {
+  /* background-color: #c8e6c9; */
+  background-color: #6fa50e;
+}
+
+/* Language selector */
+.language-selector {
+  position: relative;
+}
+
+.language-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: white;
+}
+.language-icon:hover {
+
+  color: #4caf50;
+}
+
+.language-dropdown {
+  position: absolute;
+  top: 2rem;
+  right: 0;
+  background: white;
+  color: #333;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.language-dropdown button {
+  display: block;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  color: #4caf50;
+  cursor: pointer;
+}
+
+.language-dropdown button:hover {
+  background: #c8e6c9;
+}
+
+/* Homepage content */
+.homepage-content{
+  padding: 20px;
+  border-radius: 10px;
+  position: fixed; /* Position fixe pour rester visible en défilement */
+  top: 50%; /* Centré verticalement */
+  right: 10%; /* Positionné à 5% de la largeur de la page depuis la droite */
+  transform: translateY(-50%); /* Centre verticalement */
+  background-color: rgba(0, 0, 0, 0.8); /* Arrière-plan semi-transparent */
+  color: #fff; /* Couleur du texte blanc */
+  max-width: 300px; /* Largeur maximale de la zone de texte */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Ombre portée */
+  z-index: 999; /* Assure que la zone de texte est au-dessus des autres éléments */
+
+  
+}
+.about-section {
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.8); /* Arrière-plan semi-transparent */
+  background: linear-gradient(45deg, #f57c00, #8de110); /* Utilisation d'un dégradé de couleurs */
+  color: #fff; /* Texte en blanc */
+  border-radius: 10px; /* Coins arrondis */
+  max-width: 600px; /* Largeur maximale */
+  margin: 20px auto; /* Centrage horizontal */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Ombre portée */
+  z-index: 999; /* Assure que la zone de texte est au-dessus des autres éléments */
+
+ margin-top: 100px;
+
+}
+
+.about-section h2 {
+  font-size: 24px;
+  color: #fff;
+  font-weight: bold;
+  text-align: center; /* Centrage du titre */
+}
+
+.about-section p {
+  font-size: 18px;
+  color: #fff;
+  text-align: justify; /* Justification du texte */
+}
+
+.homepage-content h2 {
+  font-size: 24px;
+  color: #fff;
+  font-weight: bold;
+  text-align: center; /* Centrage du titre */
+}
+
+.homepage-content p {
+  font-size: 18px;
+  color: #fff;
+  text-align: justify; /* Justification du texte */
+  
+}
+
+/* Form styles */
+.form-box {
+  margin-top: 2rem;
+  background: white;
+  
+  color: #333;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 300px;
+  margin: 0 auto;
+  margin-top: 40px;
+  color: #333;
+}
+
+.form-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: #333;
+  
+}
+.form-box h2{
+  color: #333;
+}
+
+
+.form-box input {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  
+  color: #333;
+}
+
+.form-box input::placeholder {
+
+  
+  color: #333;
+}
+
+
+.form-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-button:hover {
+  background-color: #388e3c;
+}
+
