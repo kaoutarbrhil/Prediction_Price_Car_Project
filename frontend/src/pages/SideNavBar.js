@@ -107,7 +107,7 @@ export default function SideNavBar() {
     );
 }*/
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, NavLink, Link } from "react-router-dom";
 import {
   FaChartLine,
@@ -129,6 +129,15 @@ export default function SideNavBar({setUserId }) {
     { text: 'Paramètres', icon: <FaCog />, path: "Paramètres" },
   ];
   const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    // Récupérer le nom de l'utilisateur depuis le localStorage
+    const fullName = localStorage.getItem("userFullName");
+    if (fullName) {
+      setUserName(fullName);
+    }
+  }, []);
+
   const handleLogout = () => {
     localStorage.clear();
     setUserId(null);  // Mettez à jour l'état userId

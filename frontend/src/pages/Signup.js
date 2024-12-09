@@ -1,5 +1,7 @@
+
+
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";  // Importez useNavigate
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -7,9 +9,8 @@ const Signup = () => {
     email: "",
     password: "",
   });
-  const [errorMessage, setErrorMessage] = useState(""); // State pour gérer les erreurs
-  const [successMessage, setSuccessMessage] = useState(""); // State pour gérer le succès
-  const navigate = useNavigate(); // Initialise le hook de redirection
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,7 +21,7 @@ const Signup = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Empêche le rechargement de la page lors de la soumission
+    e.preventDefault();
 
     try {
       const response = await fetch("http://localhost:5000/signup", {
@@ -29,7 +30,7 @@ const Signup = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          fullName: formData.username,  // Envoi du nom d'utilisateur
+          fullName: formData.username,
           email: formData.email,
           password: formData.password,
         }),
@@ -38,21 +39,14 @@ const Signup = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // Si l'inscription réussit
-        setSuccessMessage(data.message);
-        setErrorMessage(""); // Réinitialiser les erreurs
-        setTimeout(() => {
-          navigate("/login"); // Redirige l'utilisateur vers la page de connexion après un délai
-        }, 2000);  // Attendre 2 secondes avant de rediriger
+        alert(data.message); // Message de succès
+        navigate("/login");
       } else {
-        // Si une erreur se produit (par exemple, email déjà existant)
-        setErrorMessage(data.error);
-        setSuccessMessage(""); // Réinitialiser le message de succès
+        alert(data.error); // Affiche une erreur si l'email existe déjà
       }
     } catch (error) {
       console.error("Error:", error);
-      setErrorMessage("Une erreur est survenue, veuillez réessayer plus tard.");
-      setSuccessMessage(""); // Réinitialiser le message de succès
+      alert("Une erreur est survenue, veuillez réessayer.");
     }
   };
 
@@ -61,6 +55,7 @@ const Signup = () => {
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-semibold text-center mb-6">Inscription</h2>
         <form onSubmit={handleSubmit}>
+          {/* Nom d'utilisateur */}
           <div className="mb-4">
             <label htmlFor="username" className="block text-sm font-medium text-gray-600">Nom d'utilisateur</label>
             <input
@@ -69,10 +64,14 @@ const Signup = () => {
               value={formData.username}
               onChange={handleChange}
               id="username"
+              pattern="^[A-Za-z\s]+$" // Validation : uniquement lettres et espaces
+              title="Le nom d'utilisateur ne doit contenir que des lettres et des espaces." // Message d'erreur natif
               className="w-full mt-1 p-2 border border-gray-300 rounded-md"
               required
             />
           </div>
+
+          {/* Email */}
           <div className="mb-4">
             <label htmlFor="email" className="block text-sm font-medium text-gray-600">Email</label>
             <input
@@ -85,6 +84,8 @@ const Signup = () => {
               required
             />
           </div>
+
+          {/* Mot de passe */}
           <div className="mb-4">
             <label htmlFor="password" className="block text-sm font-medium text-gray-600">Mot de passe</label>
             <input
@@ -93,18 +94,12 @@ const Signup = () => {
               value={formData.password}
               onChange={handleChange}
               id="password"
+              pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+              title="Le mot de passe doit contenir au moins 8 caractères, incluant une lettre, un chiffre et un symbole."
               className="w-full mt-1 p-2 border border-gray-300 rounded-md"
               required
             />
           </div>
-
-          {/* Affichage des messages de succès ou d'erreur */}
-          {errorMessage && (
-            <p className="text-red-600 text-sm text-center">{errorMessage}</p>
-          )}
-          {successMessage && (
-            <p className="text-green-600 text-sm text-center">{successMessage}</p>
-          )}
 
           <button
             type="submit"
@@ -123,3 +118,4 @@ const Signup = () => {
 };
 
 export default Signup;
+

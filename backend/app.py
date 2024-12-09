@@ -18,7 +18,7 @@ bcrypt = Bcrypt(app)
 CORS(app)  # Autoriser les requêtes entre origines (frontend-backend)
 
 # Chargement des modèles et des fichiers de transformation
-MODEL_PATH = "C:/Users/DELL/Desktop/Prediction_Car_Price_Project/sales-prediction-app/backend/"
+MODEL_PATH = "C:/Users/Aya/Prediction_Car_Price_Project2 - Copie/Prediction_Car_Price_Project/sales-prediction-app/backend/"
 with open(f"{MODEL_PATH}car_price_model3.pkl", "rb") as model_file:
     model = pickle.load(model_file)
 
