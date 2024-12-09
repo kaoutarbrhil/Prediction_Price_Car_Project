@@ -234,7 +234,7 @@ def contact():
         # mail.send(msg)
 
         # Réponse de succès
-        return jsonify({'message': 'Votre message a été envoyé avec succès.'}), 200
+        return jsonify({'message': 'Votre message a ete envoye avec succes'}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
