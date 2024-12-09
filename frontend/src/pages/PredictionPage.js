@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import LeftForm from "./LeftForm";
 import RightForm from "./RightForm";
+import { useTranslation } from 'react-i18next';
 
 const cities = [
     { name: "Delhi", image: require("../img/delhi.jpeg") },
@@ -12,6 +13,7 @@ const cities = [
 ];
 
 export default function PredictionPage() {
+    const { t } = useTranslation();
 
     const user_id = localStorage.getItem('userId');
     console.log("user ID is : " +user_id);
@@ -55,13 +57,13 @@ export default function PredictionPage() {
     return (
         <div className="min-h-screen text-gray-700 dark:text-white p-6">
             <h1 className="text-3xl font-bold mb-8 text-center">
-                Bonjour ! Bienvenue sur la page des prédictions.
+                {t('welcome_predict')}
             </h1>
 
             {/* Sélection de la ville */}
             {!selectedCity && (
                 <div className="text-center">
-                    <h2 className="text-xl font-semibold mb-4 text-blue-600">Select a City:</h2>
+                    <h2 className="text-xl font-semibold mb-4 text-blue-600">{t('select_city')}</h2>
                     <div className="flex flex-wrap justify-center gap-6">
                         {cities.map((city) => (
                             <div
@@ -86,7 +88,7 @@ export default function PredictionPage() {
             {selectedCity && (
                 <div>
                     <h2 className="text-xl font-semibold mb-4">
-                        City selected: <span className="text-orange-500">{selectedCity}</span>
+                        {t('city_selected')} <span className="text-orange-500">{selectedCity}</span>
                     </h2>
                     <div className="grid grid-cols-4 gap-8">
                         {/* Left Form: 1/4 */}

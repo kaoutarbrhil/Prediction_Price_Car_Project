@@ -1,15 +1,38 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";  // Importez useNavigate
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Signup = () => {
+  const { t, i18n } = useTranslation(); // Hook pour les traductions
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
   });
-  const [errorMessage, setErrorMessage] = useState(""); // State pour gérer les erreurs
-  const [successMessage, setSuccessMessage] = useState(""); // State pour gérer le succès
-  const navigate = useNavigate(); // Initialise le hook de redirection
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [lang, setLang] = useState("en"); // Langue par défaut
+  const navigate = useNavigate();
+
+  // Récupérer la langue et le mode sombre depuis localStorage
+  useEffect(() => {
+    const savedLang = localStorage.getItem('language');
+    const savedMode = localStorage.getItem('darkMode');
+    
+    if (savedLang) {
+      i18n.changeLanguage(savedLang);
+      setLang(savedLang); // Met à jour le state de la langue
+    }
+
+    if (savedMode === 'true') {
+      setIsDarkMode(true);
+      document.documentElement.classList.add('dark');
+    } else {
+      setIsDarkMode(false);
+      document.documentElement.classList.remove('dark');
+    }
+  }, [i18n]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,7 +43,7 @@ const Signup = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Empêche le rechargement de la page lors de la soumission
+    e.preventDefault();
 
     try {
       const response = await fetch("http://localhost:5000/signup", {
@@ -29,76 +52,92 @@ const Signup = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          fullName: formData.username,  // Envoi du nom d'utilisateur
+          fullName: formData.username,
           email: formData.email,
           password: formData.password,
         }),
       });
 
       const data = await response.json();
+      console.log(data); 
 
       if (response.ok) {
-        // Si l'inscription réussit
-        setSuccessMessage(data.message);
-        setErrorMessage(""); // Réinitialiser les erreurs
+        setSuccessMessage(t("signup.success_message"));
+        setErrorMessage("");
         setTimeout(() => {
-          navigate("/login"); // Redirige l'utilisateur vers la page de connexion après un délai
-        }, 2000);  // Attendre 2 secondes avant de rediriger
+          navigate("/login");
+        }, 2000);
       } else {
-        // Si une erreur se produit (par exemple, email déjà existant)
-        setErrorMessage(data.error);
-        setSuccessMessage(""); // Réinitialiser le message de succès
+        setErrorMessage(t("signup.email_exists")); // Erreur traduite
+        setSuccessMessage("");
       }
     } catch (error) {
       console.error("Error:", error);
-      setErrorMessage("Une erreur est survenue, veuillez réessayer plus tard.");
-      setSuccessMessage(""); // Réinitialiser le message de succès
+      setErrorMessage(t("signup.error_message")); // Message d'erreur traduit
+      setSuccessMessage("");
     }
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-100">
-      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold text-center mb-6">Inscription</h2>
+    <div className={`min-h-screen flex justify-center items-center  dark:bg-gray-900 bg-gray-100`}>
+      <div className="w-full max-w-md p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+        <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800 dark:text-white">
+          {t("signup.signup")} {/* Titre traduit */}
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="username" className="block text-sm font-medium text-gray-600">Nom d'utilisateur</label>
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-600 dark:text-white"
+            >
+              {t("signup.username")} {/* Label nom d'utilisateur traduit */}
+            </label>
             <input
               type="text"
               name="username"
               value={formData.username}
               onChange={handleChange}
               id="username"
-              className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+              className="w-full mt-1 p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white"
               required
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-600">Email</label>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-600 dark:text-white"
+            >
+              {t("signup.email")} {/* Label email traduit */}
+            </label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               id="email"
-              className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+              className="w-full mt-1 p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white"
               required
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-600">Mot de passe</label>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-600 dark:text-white"
+            >
+              {t("signup.password")} {/* Label mot de passe traduit */}
+            </label>
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
               id="password"
-              className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+              className="w-full mt-1 p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white"
               required
             />
           </div>
 
-          {/* Affichage des messages de succès ou d'erreur */}
+          {/* Messages de succès ou d'erreur traduits */}
           {errorMessage && (
             <p className="text-red-600 text-sm text-center">{errorMessage}</p>
           )}
@@ -108,14 +147,16 @@ const Signup = () => {
 
           <button
             type="submit"
-            className="w-full p-2 bg-blue-600 text-white font-semibold rounded-md"
+            className="w-full p-2 bg-blue-600 text-white font-semibold rounded-md dark:bg-blue-800"
           >
-            S'inscrire
+            {t("signup.submit")} {/* Texte du bouton traduit */}
           </button>
         </form>
-        <p className="text-center mt-4">
-          Vous avez déjà un compte ?{" "}
-          <a href="/login" className="text-blue-600">Connectez-vous</a>
+        <p className="text-center mt-4 text-gray-600 dark:text-white">
+          {t("signup.existing_account")}{" "}
+          <a href="/login" className="text-blue-600 dark:text-blue-400">
+            {t("signup.login_link")} {/* Lien traduit */}
+          </a>
         </p>
       </div>
     </div>

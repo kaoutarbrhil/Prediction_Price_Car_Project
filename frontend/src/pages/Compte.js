@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { FaUser, FaEnvelope, FaLock, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
-import '../css/Compte.css';
+import { useTranslation } from 'react-i18next';
 
 const Compte = () => {
+  const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
-  const [userInfo, setUserInfo] = useState(null); // Initially null
+  const [userInfo, setUserInfo] = useState(null);
   const [editedInfo, setEditedInfo] = useState({});
   const [passwordVisible, setPasswordVisible] = useState(false);
   const navigate = useNavigate();
 
-
-  //const userId = 1; // Replace with dynamic user ID (e.g., from authentication)
-  // Remplacer userId par un id dynamique, récupéré depuis le localStorage ou un contexte global
-  const userId = localStorage.getItem('userId'); // Stocké après la connexion
-
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
     if (!userId) {
-      navigate("/login"); // Rediriger si l'utilisateur n'est pas connecté
+      navigate("/login");
     } else {
       fetch(`http://127.0.0.1:5000/user/${userId}`)
         .then((response) => response.json())
@@ -28,41 +25,21 @@ const Compte = () => {
         })
         .catch((error) => console.error('Error fetching user:', error));
     }
-  }, [userId, navigate]);  
-
-
-  useEffect(() => {
-    if (!userId) {
-      navigate("/login"); // Rediriger si l'utilisateur n'est pas connecté
-    } else {
-      fetch(`http://127.0.0.1:5000/user/${userId}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setUserInfo(data);
-          setEditedInfo(data);
-        })
-        .catch((error) => console.error('Error fetching user:', error));
-    }
-  }, [userId]);
+  }, [userId, navigate]);
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
-    if (isEditing) setEditedInfo({ ...userInfo }); // Reset edits on cancel
+    if (isEditing) setEditedInfo({ ...userInfo });
   };
 
   const handleSave = () => {
-    // Update user details via API
     fetch(`http://127.0.0.1:5000/user/${userId}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(editedInfo),
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to update user');
-        }
+        if (!response.ok) throw new Error('Failed to update user');
         return response.json();
       })
       .then(() => {
@@ -81,20 +58,18 @@ const Compte = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  if (!userInfo) {
-    return <div>Loading...</div>;
-  }
+  if (!userInfo) return <div>Loading...</div>;
 
   return (
-    <div className="compte-container">
-      <h2 className="compte-title">
-        <FaUser className="compte-icon" /> Mon Compte
+    <div className="max-w-md mx-auto mt-12 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+      <h2 className="text-2xl font-bold text-center mb-6 flex items-center justify-center">
+        <FaUser className="mr-2 text-blue-500" /> {t('menu.account')}
       </h2>
 
-      <div className="compte-info">
-        <div className="compte-field">
-          <label>
-            <FaUser className="field-icon" /> Nom :
+      <div className="space-y-6">
+        <div className="flex items-center space-x-4">
+          <label className="flex-shrink-0 text-lg font-semibold w-32 flex items-center">
+            <FaUser className="mr-2 text-blue-500" /> {t('signup.username')}
           </label>
           {isEditing ? (
             <input
@@ -102,16 +77,16 @@ const Compte = () => {
               name="name"
               value={editedInfo.name}
               onChange={handleInputChange}
-              className="compte-input"
+              className="flex-grow px-3 py-2 border rounded-md text-gray-800"
             />
           ) : (
-            <span>{userInfo.name}</span>
+            <span className="text-lg text-gray-700 dark:text-gray-200">{userInfo.name}</span>
           )}
         </div>
 
-        <div className="compte-field">
-          <label>
-            <FaEnvelope className="field-icon" /> Email :
+        <div className="flex items-center space-x-4">
+          <label className="flex-shrink-0 text-lg font-semibold w-32 flex items-center">
+            <FaEnvelope className="mr-2 text-blue-500" /> {t('signup.email')}
           </label>
           {isEditing ? (
             <input
@@ -119,53 +94,62 @@ const Compte = () => {
               name="email"
               value={editedInfo.email}
               onChange={handleInputChange}
-              className="compte-input"
+              className="flex-grow px-3 py-2 border rounded-md text-gray-800"
             />
           ) : (
-            <span>{userInfo.email}</span>
+            <span className="text-lg text-gray-700 dark:text-gray-200">{userInfo.email}</span>
           )}
         </div>
 
-        <div className="compte-field">
-          <label>
-            <FaLock className="field-icon" /> Mot de passe :
+        <div className="flex items-center space-x-4">
+          <label className="flex-shrink-0 text-lg font-semibold w-32 flex items-center">
+            <FaLock className="mr-2 text-blue-500" /> {t('signup.password')}
           </label>
           {isEditing ? (
-            <div className="password-input-container">
+            <div className="flex items-center gap-2 flex-grow">
               <input
                 type={passwordVisible ? 'text' : 'password'}
                 name="password"
                 value={editedInfo.password || ''}
                 onChange={handleInputChange}
-                className="compte-input"
+                className="px-3 py-2 border rounded-md text-gray-800 flex-grow"
               />
               <button
                 type="button"
-                className="toggle-password-button"
+                className="px-3 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-md"
                 onClick={togglePasswordVisibility}
               >
                 {passwordVisible ? 'Cacher' : 'Afficher'}
               </button>
             </div>
           ) : (
-            <span>********</span>
+            <span className="text-lg text-gray-700 dark:text-gray-200">********</span>
           )}
         </div>
       </div>
 
-      <div className="compte-actions">
+      <div className="mt-8 text-center">
         {isEditing ? (
           <>
-            <button onClick={handleSave} className="action-button save-button">
-              <FaSave /> Enregistrer
+            <button
+              onClick={handleSave}
+              className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md mx-2"
+            >
+              <FaSave className="mr-1 inline-block" /> {t('save')}
             </button>
-            <button onClick={handleEditToggle} className="action-button cancel-button">
-              <FaTimes /> Annuler
+            <button
+              onClick={handleEditToggle}
+              className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md mx-2"
+            >
+              <FaTimes className="mr-1 inline-block" /> {t('cancel')}
             </button>
           </>
         ) : (
-          <button onClick={handleEditToggle} className="action-button edit-button">
-            <FaEdit /> Modifier
+          <button
+            onClick={handleEditToggle}
+            className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md"
+          >
+            <FaEdit className="mr-1 inline-block" /> {t('update')}
           </button>
         )}
       </div>

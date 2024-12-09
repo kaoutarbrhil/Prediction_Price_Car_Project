@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 
 const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
+    const { t } = useTranslation();
     // Valeurs par défaut à utiliser si propFormData est vide
     const defaultFormData = {
         modelYear: "",
@@ -58,19 +60,19 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
         const newerrors = { ...errors };
     
         if (name === "engineSize" && numericValue < 500) {
-            newerrors.engineSize = "Engine size must be at least 500.";
+            newerrors.engineSize = t('engineSizeError');
         } else if (name === "torque" && numericValue < 50) {
-            newerrors.torque = "Torque must be at least 50.";
+            newerrors.torque = t('torqueError');
         } else if (name === "maxPower" && numericValue < 30) {
-            newerrors.maxPower = "Max power must be at least 30.";
+            newerrors.maxPower = t('maxPowerError');
         } else if (name === "gearBox" && numericValue < 3) {
-            newerrors.gearBox = "Gearbox must have at least 3 speeds.";
+            newerrors.gearBox = t('gearBoxError');
         } else if (name === "noOfCylinders" && numericValue < 2) {
-            newerrors.noOfCylinders = "Number of cylinders must be at least 2.";
+            newerrors.noOfCylinders = t('noOfCylindersError');
         } else if (name === "wheelSize" && numericValue < 10) {
-            newerrors.wheelSize = "Wheel size must be at least 10.";
+            newerrors.wheelSize = t('wheelSizeError');
         } else if (name === "height" && numericValue < 1000) {
-            newerrors.height = "Height must be at least 1000.";
+            newerrors.height = t('heightError');
         } else {
             delete newerrors[name];
         }
@@ -136,12 +138,12 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
     
     return (
         <div className="dark:bg-gray-800 bg-white p-6 rounded-lg shadow-lg dark:text-white">
-            <h1 className="text-blue-600 dark:text-red-700 text-2xl font-bold text-center mb-8">Please fill car specifications</h1>
+            <h1 className="text-blue-600 dark:text-red-700 text-2xl font-bold text-center mb-8">{t('carSpecificationsTitle')}</h1>
             <form className="space-y-6">
                 <div className="grid grid-cols-3 gap-4">
                     {/* Model Year */}
                     <div className="flex flex-col">
-                        <label className="mb-2 text-sm font-medium">Model Year:</label>
+                        <label className="mb-2 text-sm font-medium">{t('modelYear')}</label>
                         <select
                             name="modelYear"
                             value={formData.modelYear}
@@ -158,7 +160,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
 
                     {/* Kilometers Driven */}
                     <div className="flex flex-col">
-                        <label className="mb-2 text-sm font-medium">Kilometers Driven:</label>
+                        <label className="mb-2 text-sm font-medium">{t('kilometersDriven')}</label>
                         <input
                             type="number"
                             name="kilometersDriven"
@@ -170,7 +172,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
 
                     {/* Number of Owners */}
                     <div className="flex flex-col">
-                        <label className="mb-2 text-sm font-medium">Number Of Owners:</label>
+                        <label className="mb-2 text-sm font-medium">{t('ownerNo')}</label>
                         <select
                             name="ownerNo"
                             value={formData.ownerNo}
@@ -188,7 +190,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                 <div className="grid grid-cols-3 gap-4">
                     {/* Engine Size */}
                     <div className="flex flex-col relative">
-                        <label className="mb-2 text-sm font-medium">Engine Size (cc):</label>
+                        <label className="mb-2 text-sm font-medium">{t('engineSize')}</label>
                         <input
                             type="number"
                             name="engineSize"
@@ -207,7 +209,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
 
                     {/* Torque */}
                     <div className="flex flex-col relative">
-                        <label className="mb-2 text-sm font-medium">Torque (Nm):</label>
+                        <label className="mb-2 text-sm font-medium">{t('torque')}</label>
                         <input
                             type="number"
                             name="torque"
@@ -226,7 +228,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
 
                     {/* Max Power */}
                     <div className="flex flex-col relative">
-                        <label className="mb-2 text-sm font-medium">Max Power (HP):</label>
+                        <label className="mb-2 text-sm font-medium">{t('maxPower')}</label>
                         <input
                             type="number"
                             name="maxPower"
@@ -247,7 +249,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                 <div className="grid grid-cols-3 gap-4">
                     {/* Gear Box */}
                     <div className="flex flex-col relative">
-                        <label className="mb-2 text-sm font-medium">Gear Box (Speeds):</label>
+                        <label className="mb-2 text-sm font-medium">{t('gearBox')}</label>
                         <input
                             type="number"
                             name="gearBox"
@@ -266,7 +268,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
 
                     {/* Number of Cylinders */}
                     <div className="flex flex-col relative">
-                        <label className="mb-2 text-sm font-medium">Number of Cylinders:</label>
+                        <label className="mb-2 text-sm font-medium">{t('noOfCylinders')}</label>
                         <input
                             type="number"
                             name="noOfCylinders"
@@ -285,7 +287,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
 
                     {/* Wheel Size */}
                     <div className="flex flex-col relative">
-                        <label className="mb-2 text-sm font-medium">Wheel Size:</label>
+                        <label className="mb-2 text-sm font-medium">{t('wheelSize')}</label>
                         <input
                             type="number"
                             name="wheelSize"
@@ -307,7 +309,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                 <div className="grid grid-cols-3 gap-4">
                     {/* Height */}
                     <div className="flex flex-col relative">
-                        <label className="mb-2 text-sm font-medium">Height (mm):</label>
+                        <label className="mb-2 text-sm font-medium">{t('height')}</label>
                         <input
                             type="number"
                             name="height"
@@ -326,7 +328,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
 
                     {/* Cargo Volume */}
                     <div className="flex flex-col">
-                        <label className="mb-2 text-sm font-medium">Cargo Volume (liters):</label>
+                        <label className="mb-2 text-sm font-medium">{t('cargoVolume')}</label>
                         <input
                             type="number"
                             name="cargoVolume"
@@ -344,14 +346,14 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                         onClick={handlePrediction} // Fonction de prédiction
                         className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
                     >
-                        Predict Price
+                        {t('predictPrice')}]
                     </button>
                     <button
                         type="button"
                         className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
                         onClick={onCancel}
                     >
-                        Cancel
+                        {t('cancel')}
                     </button>
                 </div>
             </form>
@@ -359,7 +361,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
              {/* Résultat de la prédiction */}
              {prediction !== null && (
                 <div className="mt-4 p-4 bg-green-700 rounded-lg text-center">
-                    <p className="text-xl font-bold text-white">Predicted Price: {prediction.toFixed(2)} lakhs ₹</p>
+                    <p className="text-xl font-bold text-white">{t('carSpecificationsTitle')} {prediction.toFixed(2)} lakhs ₹</p>
                 </div>
             )}
 

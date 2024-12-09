@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from '../img/logo-removebg-preview.png';
 import { FaGlobe, FaMoon, FaSun } from 'react-icons/fa';
@@ -9,6 +9,21 @@ export default function Navbar() {
   const { t, i18n } = useTranslation();
   const [showLanguageOptions, setShowLanguageOptions] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Charger le mode sombre et la langue depuis le localStorage au chargement du composant
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    console.log("theme:", savedTheme);
+    const savedLanguage = localStorage.getItem('language');
+    console.log("language:", savedLanguage);
+    if (savedTheme) {
+      setIsDarkMode(savedTheme === 'dark');
+      document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+    }
+    if (savedLanguage) {
+      i18n.changeLanguage(savedLanguage);
+    }
+  }, [i18n]);
 
   // Sections de la page
   const sections = [
@@ -28,12 +43,15 @@ export default function Navbar() {
   // Gestion des langues
   const handleLanguageChange = (language) => {
     i18n.changeLanguage(language);
+    localStorage.setItem('language', language);
     setShowLanguageOptions(false);
   };
 
   // Gestion du mode sombre
   const handleThemeToggle = () => {
+    const newTheme = !isDarkMode ? 'dark' : 'light';
     setIsDarkMode(!isDarkMode);
+    localStorage.setItem('theme', newTheme);
     document.documentElement.classList.toggle('dark', !isDarkMode);
   };
 
