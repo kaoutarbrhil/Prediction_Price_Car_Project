@@ -85,6 +85,7 @@ const Signup = () => {
           {t("signup.signup")} {/* Titre traduit */}
         </h2>
         <form onSubmit={handleSubmit}>
+          {/* Nom d'utilisateur */}
           <div className="mb-4">
             <label
               htmlFor="username"
@@ -99,9 +100,13 @@ const Signup = () => {
               onChange={handleChange}
               id="username"
               className="w-full mt-1 p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white"
+              pattern="^[A-Za-z\s]+$" // Validation : uniquement lettres et espaces
+              title="Le nom d'utilisateur ne doit contenir que des lettres et des espaces." // Message d'erreur natif
               required
             />
           </div>
+
+          {/* Email */}
           <div className="mb-4">
             <label
               htmlFor="email"
@@ -119,6 +124,8 @@ const Signup = () => {
               required
             />
           </div>
+
+          {/* Mot de passe */}
           <div className="mb-4">
             <label
               htmlFor="password"
@@ -132,6 +139,8 @@ const Signup = () => {
               value={formData.password}
               onChange={handleChange}
               id="password"
+              pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+              title="Le mot de passe doit contenir au moins 8 caractères, incluant une lettre, un chiffre et un symbole."              
               className="w-full mt-1 p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:text-white"
               required
             />
@@ -164,3 +173,4 @@ const Signup = () => {
 };
 
 export default Signup;
+

@@ -18,7 +18,7 @@ bcrypt = Bcrypt(app)
 CORS(app)  # Autoriser les requêtes entre origines (frontend-backend)
 
 # Chargement des modèles et des fichiers de transformation
-MODEL_PATH = "C:/Users/DELL/Desktop/Prediction_Car_Price_Project/sales-prediction-app/backend/"
+MODEL_PATH = "C:/Users/LENOVO/Desktop/Prediction_Price_Car_Project/backend/"
 with open(f"{MODEL_PATH}car_price_model3.pkl", "rb") as model_file:
     model = pickle.load(model_file)
 
@@ -234,7 +234,7 @@ def contact():
         # mail.send(msg)
 
         # Réponse de succès
-        return jsonify({'message': 'Votre message a été envoyé avec succès.'}), 200
+        return jsonify({'message': 'Votre message a ete envoye avec succes.'}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500

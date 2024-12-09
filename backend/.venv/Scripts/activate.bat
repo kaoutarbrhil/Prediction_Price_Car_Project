@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\Aya\Prediction_Car_Price_Project2\Prediction_Car_Price_Project\sales-prediction-app\backend\.venv
+set VIRTUAL_ENV=C:\Users\Aya\Prediction_Car_Price_Project2 - Copie\Prediction_Car_Price_Project\sales-prediction-app\backend\.venv
 
 if not defined PROMPT set PROMPT=$P$G
 
