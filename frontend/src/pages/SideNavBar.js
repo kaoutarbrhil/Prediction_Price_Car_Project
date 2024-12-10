@@ -109,6 +109,7 @@ export default function SideNavBar() {
 
 import React, { useState, useEffect } from 'react';
 import { Outlet, NavLink, Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import {
   FaChartLine,
   FaHistory,
@@ -120,13 +121,14 @@ import {
 } from 'react-icons/fa';
 
 export default function SideNavBar({setUserId }) {
+  const { t } = useTranslation();
   const [isExpanded, setExpandState] = useState(true);
 
   const menuItems = [
-    { text: 'Prédiction', icon: <FaChartLine />, path: "prediction" },
-    { text: 'Historique', icon: <FaHistory />, path: "history" },
-    { text: 'Compte', icon: <FaUserAlt />, path: "Compte" },
-    { text: 'Paramètres', icon: <FaCog />, path: "Paramètres" },
+    { text: t('menu.prediction'), icon: <FaChartLine />, path: "prediction" },
+    { text: t('menu.history'), icon: <FaHistory />, path: "history" },
+    { text: t('menu.account'), icon: <FaUserAlt />, path: "Compte" },
+    { text: t('menu.settings'), icon: <FaCog />, path: "Paramètres" },
   ];
   const [userName, setUserName] = useState("");
 
@@ -191,7 +193,6 @@ export default function SideNavBar({setUserId }) {
               <FaUserAlt className="text-2xl mr-3" />
               <div>
                 <p className="font-semibold">{userName}</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Utilisateur</p>
               </div>
             </div>
           )}
@@ -201,7 +202,7 @@ export default function SideNavBar({setUserId }) {
             className="flex items-center gap-3 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 p-2 rounded-lg"
           >
             <FaSignOutAlt className="text-xl" />
-            {isExpanded && <span>Déconnexion</span>}
+            {isExpanded && <span>{t('menu.logout')}</span>}
           </Link>
         </div>
       </div>
@@ -213,4 +214,3 @@ export default function SideNavBar({setUserId }) {
     </div>
   );
 }
-

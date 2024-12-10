@@ -1,4 +1,6 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+
 
 const manufacturers = [
   'kia', 'maruti', 'nissan', 'hyundai', 'honda', 'mercedes-benz', 'bmw', 'ford', 'tata', 'jeep',
@@ -8,11 +10,12 @@ const manufacturers = [
 ];
 
 const LeftForm = ({ formData, handleInputChange }) => {
+    const { t } = useTranslation();
     return (
         <div className="p-6 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-md shadow-md">
             <form className="space-y-6">
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium dark:text-gray-300">Manufacturer:</label>
+                    <label className="block text-sm font-medium dark:text-gray-300">{t('manufacturer')}</label>
                     <select
                         name="manufacturer"
                         value={formData.manufacturer}
@@ -29,7 +32,7 @@ const LeftForm = ({ formData, handleInputChange }) => {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium dark:text-gray-300">Fuel Type:</label>
+                    <label className="block text-sm font-medium dark:text-gray-300">{t('fuelType')}</label>
                     <select
                         name="fuelType"
                         value={formData.fuelType}
@@ -46,7 +49,7 @@ const LeftForm = ({ formData, handleInputChange }) => {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium dark:text-gray-300">Body Type:</label>
+                    <label className="block text-sm font-medium dark:text-gray-300">{t('bodyType')}</label>
                     <select
                         name="bodyType"
                         value={formData.bodyType}
@@ -66,7 +69,7 @@ const LeftForm = ({ formData, handleInputChange }) => {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium dark:text-gray-300">Transmission:</label>
+                    <label className="block text-sm font-medium dark:text-gray-300">{t('transmission')}</label>
                     <select
                         name="transmission"
                         value={formData.transmission}
@@ -80,7 +83,7 @@ const LeftForm = ({ formData, handleInputChange }) => {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium dark:text-gray-300">Insurance:</label>
+                    <label className="block text-sm font-medium dark:text-gray-300">{t('insurance')}</label>
                     <select
                         name="insurance"
                         value={formData.insurance}
@@ -96,7 +99,7 @@ const LeftForm = ({ formData, handleInputChange }) => {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium dark:text-gray-300">Turbo Charger:</label>
+                    <label className="block text-sm font-medium dark:text-gray-300">{t('turboCharger')}</label>
                     <select
                         name="turboCharger"
                         value={formData.turboCharger}
@@ -112,7 +115,7 @@ const LeftForm = ({ formData, handleInputChange }) => {
                 </div>
 
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium dark:text-gray-300">Tyre Type:</label>
+                    <label className="block text-sm font-medium dark:text-gray-300">{t('tyreType')}</label>
                     <select
                         name="tyreType"
                         value={formData.tyreType}

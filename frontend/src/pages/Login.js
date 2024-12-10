@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-const Login = ({ setUserId }) => { // Recevoir setUserId en tant que prop
+const Login = ({ setUserId }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [errorMessage, setErrorMessage] = useState(""); // Pour gérer les erreurs
-  const [successMessage, setSuccessMessage] = useState(""); // Pour gérer le succès
-  const navigate = useNavigate(); // Initialise le hook de redirection
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,8 +21,7 @@ const Login = ({ setUserId }) => { // Recevoir setUserId en tant que prop
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Empêche le rechargement de la page
-
+    e.preventDefault();
     try {
       const response = await fetch("http://localhost:5000/login", {
         method: "POST",
@@ -32,85 +33,87 @@ const Login = ({ setUserId }) => { // Recevoir setUserId en tant que prop
           password: formData.password,
         }),
       });
-      
+
       const data = await response.json();
-      console.log(data); // Vérifiez la réponse avant la redirection
-      
+      console.log(data); 
 
       if (response.ok) {
-        // Si la connexion est réussie
-        setSuccessMessage(data.message);
-        setErrorMessage(""); // Réinitialiser les erreurs
-
-        // Stocker l'ID utilisateur dans le localStorage
+        setSuccessMessage(t("login.success_message"));
+        setErrorMessage("");
         localStorage.setItem("userId", data.user.id);
         localStorage.setItem("userFullName", data.user.fullName);
-
-
-        // Mettre à jour l'état de l'ID utilisateur dans App.js
         setUserId(data.user.id);
-
-        navigate("/prediction"); // Rediriger vers la page /Prediction
+        navigate("/prediction");
       } else {
-        // Si une erreur se produit (email ou mot de passe invalide)
-        setErrorMessage(data.error);
-        setSuccessMessage(""); // Réinitialiser le message de succès
+        setErrorMessage(t("login.invalid_credentials"));
+        setSuccessMessage("");
       }
     } catch (error) {
-      console.error("Error:", error);
-      setErrorMessage("Une erreur est survenue, veuillez réessayer plus tard.");
-      setSuccessMessage(""); // Réinitialiser le message de succès
+      console.error("Error:", error); 
+      setErrorMessage(t("login.error_message"));
+      setSuccessMessage("");
     }
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-100">
-      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold text-center mb-6">Connexion</h2>
+    <div className="min-h-screen flex justify-center items-center bg-gray-100 dark:bg-gray-900">
+      <div className="w-full max-w-md p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+        <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800 dark:text-gray-200">
+          {t("login.login")}
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-600">Email</label>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-600 dark:text-gray-300"
+            >
+              {t("login.email")}
+            </label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               id="email"
-              className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+              className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
               required
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-600">Mot de passe</label>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-600 dark:text-gray-300"
+            >
+              {t("login.password")}
+            </label>
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
               id="password"
-              className="w-full mt-1 p-2 border border-gray-300 rounded-md"
+              className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
               required
             />
           </div>
-
-          {/* Affichage des messages de succès ou d'erreur */}
           {errorMessage && (
-            <p className="text-red-600 text-sm text-center">{errorMessage}</p>
+            <p className="text-red-600 dark:text-red-400 text-sm text-center">{errorMessage}</p>
           )}
           {successMessage && (
-            <p className="text-green-600 text-sm text-center">{successMessage}</p>
+            <p className="text-green-600 dark:text-green-400 text-sm text-center">{successMessage}</p>
           )}
-
           <button
             type="submit"
-            className="w-full p-2 bg-blue-600 text-white font-semibold rounded-md"
+            className="w-full p-2 bg-blue-600 dark:bg-blue-700 text-white font-semibold rounded-md hover:bg-blue-700 dark:hover:bg-blue-800"
           >
-            Se connecter
+            {t("login.submit")}
           </button>
         </form>
-        <p className="text-center mt-4">
-          Vous n'avez pas de compte ?{" "}
-          <a href="/signup" className="text-blue-600">Créez un compte</a>
+        <p className="text-center mt-4 text-gray-600 dark:text-gray-300">
+          {t("login.create_account")}{" "}
+          <a href="/signup" className="text-blue-600 dark:text-blue-400">
+            {t("login.create_account_link")}
+          </a>
         </p>
       </div>
     </div>

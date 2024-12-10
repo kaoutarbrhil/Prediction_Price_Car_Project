@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const PredictionHistory = () => {
+    const { t } = useTranslation();
     const [predictions, setPredictions] = useState([]);
     const [error, setError] = useState(null);
 
@@ -22,7 +24,7 @@ const PredictionHistory = () => {
                 });
 
                 if (!response.ok) {
-                    throw new Error('Erreur lors de la récupération de l’historique');
+                    throw new Error(t('Error'));
                 }
 
                 const data = await response.json();
@@ -41,27 +43,27 @@ const PredictionHistory = () => {
     }, []);
 
     return (
-      <div className="bg-blue-50 min-h-screen p-6">
-          <h1 className="text-3xl font-bold text-center text-blue-600 mb-6">Historique des Prédictions</h1>
+      <div className="min-h-screen p-6 dark:bg-gray-800 dark:text-white">
+          <h1 className="text-3xl font-bold text-center text-blue-600 mb-6">{t('PredictionHistoryTitle')}</h1>
           {error && <p className="text-red-500 text-center">{error}</p>}
           <div className="overflow-x-auto shadow-md rounded-lg">
-              <table className="min-w-full bg-white border border-gray-200">
-                  <thead className="bg-blue-100 text-blue-700">
+              <table className="min-w-full bg-white border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+                  <thead className="bg-blue-100 text-blue-700 dark:bg-gray-800 dark:text-white">
                       <tr>
                           <th className="py-3 px-4 border-b text-left">ID</th>
-                          <th className="py-3 px-4 border-b text-left">Fabricant</th>
-                          <th className="py-3 px-4 border-b text-left">Type de carburant</th>
-                          <th className="py-3 px-4 border-b text-left">Transmission</th>
-                          <th className="py-3 px-4 border-b text-left">Année du modèle</th>
-                          <th className="py-3 px-4 border-b text-left">Kilométrage</th>
-                          <th className="py-3 px-4 border-b text-left">Nombre de propriétaires</th>
-                          <th className="py-3 px-4 border-b text-left">Prix prédit</th>
-                          <th className="py-3 px-4 border-b text-left">Date</th>
+                          <th className="py-3 px-4 border-b text-left">{t('manufacturer')}</th>
+                          <th className="py-3 px-4 border-b text-left">{t('fuelType')}</th>
+                          <th className="py-3 px-4 border-b text-left">{t('transmission')}</th>
+                          <th className="py-3 px-4 border-b text-left">{t('modelYear')}</th>
+                          <th className="py-3 px-4 border-b text-left">{t('kilometersDriven')}</th>
+                          <th className="py-3 px-4 border-b text-left">{t('ownerNo')}</th>
+                          <th className="py-3 px-4 border-b text-left">{t('predictPrice')}</th>
+                          <th className="py-3 px-4 border-b text-left">{t('Date')}</th>
                       </tr>
                   </thead>
                   <tbody>
                       {predictions.map((prediction) => (
-                          <tr key={prediction.id} className="hover:bg-blue-50">
+                          <tr key={prediction.id} className="hover:bg-blue-50 dark:hover:bg-gray-600">
                               <td className="py-3 px-4 border-b">{prediction.id}</td>
                               <td className="py-3 px-4 border-b">{prediction.manufacturer}</td>
                               <td className="py-3 px-4 border-b">{prediction.fuel_type}</td>
@@ -81,4 +83,3 @@ const PredictionHistory = () => {
 };
 
 export default PredictionHistory;
-
