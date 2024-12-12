@@ -110,7 +110,8 @@ i18n.use(initReactI18next).init({
           logout: "Logout"
         },
         theme: "Theme",
-        language: "Language"
+        language: "Language",
+        fieldsemptyerror : "Please complete all fields before continuing."
       },
     },
     fr: {
@@ -220,7 +221,8 @@ i18n.use(initReactI18next).init({
           logout: "Déconnexion"
         },
         theme: "Thème",
-        language: "Langue"
+        language: "Langue",
+        fieldsemptyerror : "Veuillez remplir tous les champs avant de continuer."
       },
     },
     hi: {
@@ -330,8 +332,8 @@ i18n.use(initReactI18next).init({
           logout: "लॉगआउट"
         },
         theme: "विषय",
-        language:"भाषा"
-            
+        language:"भाषा",
+        fieldsemptyerror : "कृपया जारी रखने से पहले सभी फ़ील्ड पूर्ण करें।"
       },
     },
   },

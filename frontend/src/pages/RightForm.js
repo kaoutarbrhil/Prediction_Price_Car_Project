@@ -86,6 +86,37 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
         try {
             setError(null); // Réinitialiser les erreurs
             setPrediction(null); // Réinitialiser la prédiction
+
+            // Vérifier si tous les champs sont remplis
+            const requiredFields = [
+                "fuelType",
+                "bodyType",
+                "transmission",
+                "ownerNo",
+                "manufacturer",
+                "modelYear",
+                "insurance",
+                "engineSize",
+                "maxPower",
+                "torque",
+                "wheelSize",
+                "noOfCylinders",
+                "turboCharger",
+                "height",
+                "gearBox",
+                "tyreType",
+                "cargoVolume",
+            ];
+
+            const missingFields = requiredFields.filter(
+                (field) => !formData[field] || formData[field] === ""
+            );
+
+            if (missingFields.length > 0) {
+                setError(t('fieldsemptyerror'));
+                return;
+            }
+
     
             // Transformation des données avant de les envoyer
             const transformedData = {
@@ -109,6 +140,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                 cargo_volumn: formData.cargoVolume,
                 city: "delhi",
             };
+
     
             const userId = localStorage.getItem('userId');  // Remplacez ceci par la méthode d'accès à l'ID de l'utilisateur
     
@@ -346,7 +378,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                         onClick={handlePrediction} // Fonction de prédiction
                         className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
                     >
-                        {t('predictPrice')}]
+                        {t('predictPrice')}
                     </button>
                     <button
                         type="button"
@@ -356,6 +388,7 @@ const RightForm = ({ onCancel, formData: propFormData, setFormData }) => {
                         {t('cancel')}
                     </button>
                 </div>
+
             </form>
 
              {/* Résultat de la prédiction */}
