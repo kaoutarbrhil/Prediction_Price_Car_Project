@@ -11,7 +11,9 @@ const Signup = () => {
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [isDarkMode, setIsDarkMode] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [lang, setLang] = useState("en"); // Langue par défaut
   const navigate = useNavigate();
 

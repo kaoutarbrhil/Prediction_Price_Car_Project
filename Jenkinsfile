@@ -2,52 +2,83 @@ pipeline {
     agent any
 
     environment {
-        FRONTEND_DIR = 'frontend'
         BACKEND_DIR = 'backend'
-        DOCKER_IMAGE_FRONTEND = 'react-frontend-image'
-        DOCKER_IMAGE_BACKEND = 'flask-backend-image'
+        FRONTEND_DIR = 'frontend'
     }
 
     stages {
-        stage('Build Frontend') {
+        stage('Checkout Code') {
             steps {
-                script {
-                    docker.build(DOCKER_IMAGE_FRONTEND, "./${FRONTEND_DIR}")
+                // Récupérer le code depuis le dépôt Git
+                checkout scm
+            }
+        }
+
+        stage('Setup Backend') {
+            steps {
+                dir("${BACKEND_DIR}") {
+                    // Installer les dépendances du backend
+                    sh 'pip install -r requirements.txt'
                 }
             }
         }
-        stage('Build Backend') {
+
+        stage('Setup Frontend') {
             steps {
-                script {
-                    docker.build(DOCKER_IMAGE_BACKEND, "./${BACKEND_DIR}")
+                dir("${FRONTEND_DIR}") {
+                    // Installer les dépendances du frontend
+                    sh 'npm install'
                 }
             }
         }
-         stage('Run Backend Tests') {
-            steps {
-                script {
-                    docker.image(DOCKER_IMAGE_BACKEND).inside {
-                        sh 'pytest'  // Lancer les tests backend dans le conteneur
+
+        stage('Run Tests') {
+            parallel {
+                stage('Backend Tests') {
+                    steps {
+                        dir("${BACKEND_DIR}") {
+                            // Lancer les tests backend
+                            sh 'pytest'
+                        }
+                    }
+                }
+                stage('Frontend Tests') {
+                    steps {
+                        dir("${FRONTEND_DIR}") {
+                            // Lancer les tests frontend
+                            sh 'npm test -- --watchAll=false'
+                        }
                     }
                 }
             }
         }
 
-        stage('Run Frontend Tests') {
+        stage('Build Frontend') {
             steps {
-                script {
-                    docker.image(DOCKER_IMAGE_FRONTEND).inside {
-                        sh 'npm test -- --watchAll=false'  // Lancer les tests frontend dans le conteneur
-                    }
+                dir("${FRONTEND_DIR}") {
+                    // Construire les fichiers frontend
+                    sh 'npm run build'
                 }
             }
         }
-        
+
         stage('Deploy') {
             steps {
-                echo 'Déployer les images Docker sur un serveur ou une plateforme de déploiement'
-                // Déploiement de Docker ou autre action ici
+                echo 'Déploiement en cours...'
+                // Ajoutez ici vos étapes pour copier ou déployer les fichiers générés sur un serveur
             }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline terminé.'
+        }
+        success {
+            echo 'Pipeline exécuté avec succès.'
+        }
+        failure {
+            echo 'Le pipeline a échoué.'
         }
     }
 }

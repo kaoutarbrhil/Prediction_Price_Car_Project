@@ -40,6 +40,7 @@ const PredictionHistory = () => {
         };
 
         fetchPredictionHistory();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
