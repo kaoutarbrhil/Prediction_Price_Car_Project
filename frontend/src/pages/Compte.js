@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { FaUser, FaEnvelope, FaLock, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from 'react-i18next';
+import '../css/Compte.css';
+import { useTranslation } from 'react-i18next'; 
 
 const Compte = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(); 
   const [isEditing, setIsEditing] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [editedInfo, setEditedInfo] = useState({});
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  
   const userId = localStorage.getItem('userId');
 
-  // Récupération des informations de l'utilisateur
   useEffect(() => {
     if (!userId) {
-      navigate("/login");
+      navigate("/login"); 
     } else {
       fetch(`http://127.0.0.1:5000/user/${userId}`)
         .then((response) => response.json())
@@ -28,22 +29,32 @@ const Compte = () => {
     }
   }, [userId, navigate]);
 
-  // Validation du formulaire
+  const handleEditToggle = () => {
+    setIsEditing(!isEditing);
+    if (isEditing) setEditedInfo({ ...userInfo }); 
+  };
+
   const validateForm = () => {
     let valid = true;
-    const errorMessages = {};
+    let errorMessages = {};
 
-    if (!/^[A-Za-z\s]+$/.test(editedInfo.name)) {
+    // Validate name (only letters and spaces)
+    const nameRegex = /^[A-Za-z\s]+$/;
+    if (!nameRegex.test(editedInfo.name)) {
       valid = false;
-      errorMessages.name = t("error.invalidName");
+      errorMessages.name =  t("error.invalidName");
     }
 
-    if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(editedInfo.email)) {
+    // Validate email (basic email format)
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailRegex.test(editedInfo.email)) {
       valid = false;
       errorMessages.email = t("error.invalidEmail");
     }
 
-    if (editedInfo.password && !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(editedInfo.password)) {
+    // Validate password (minimum 8 characters, 1 letter, 1 number, 1 symbol)
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (editedInfo.password && !passwordRegex.test(editedInfo.password)) {
       valid = false;
       errorMessages.password = t("error.invalidPassword");
     }
@@ -52,140 +63,134 @@ const Compte = () => {
     return valid;
   };
 
-  // Gestion de l'enregistrement des modifications
   const handleSave = (e) => {
     e.preventDefault();
     if (validateForm()) {
       fetch(`http://127.0.0.1:5000/user/${userId}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(editedInfo),
       })
         .then((response) => {
-          if (!response.ok) throw new Error(t("error.updateFailed"));
+          if (!response.ok) {
+            throw new Error(t("error.updateFailed"));
+          }
           return response.json();
         })
         .then(() => {
           setUserInfo({ ...editedInfo });
           setIsEditing(false);
         })
-        .catch((error) => console.error(error.message));
+        .catch((error) => console.error('Error updating user:', error));
     }
   };
 
-  // Gestion des champs d'entrée
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditedInfo((prev) => ({ ...prev, [name]: value }));
+    setEditedInfo({ ...editedInfo, [name]: value });
   };
 
-  // Affichage ou masquage du mot de passe
-  const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
-  if (!userInfo) return <div>{t("loading")}</div>;
+  if (!userInfo) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className="max-w-md mx-auto mt-12 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold text-center mb-6 flex items-center justify-center">
-        <FaUser className="mr-2 text-blue-500" /> {t('menu.account')}
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md max-w-md mx-auto">
+      <h2 className="text-2xl font-bold mb-4 text-center text-gray-800 dark:text-white">
+        <FaUser className="inline mr-2" /> {t('menu.account')}
       </h2>
 
-      <form className="space-y-6" onSubmit={handleSave}>
-        {/* Nom */}
-        <div className="flex items-center space-x-4">
-          <label htmlFor="name" className="flex-shrink-0 text-lg font-semibold w-32">
-            <FaUser className="mr-2 text-blue-500" /> {t('signup.username')}
+      <form onSubmit={handleSave}>
+        <div className="mb-4 flex items-center gap-2">
+          <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+            <FaUser className="mr-2" />{t('signup.username')}
           </label>
           {isEditing ? (
             <input
-              id="name"
-              name="name"
               type="text"
-              value={editedInfo.name || ""}
+              name="name"
+              value={editedInfo.name}
               onChange={handleInputChange}
-              className="flex-grow px-3 py-2 border rounded-md"
+              id="username"
+              pattern="^[A-Za-z\s]+$" // Validation : uniquement lettres et espaces
+              title="Le nom d'utilisateur ne doit contenir que des lettres et des espaces." // Message d'erreur natif
+              className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
               required
             />
           ) : (
-            <span>{userInfo.name}</span>
+            <span className="text-gray-600 dark:text-gray-400">{userInfo.name}</span>
           )}
-          {errors.name && <small className="text-red-500">{errors.name}</small>}
+          {/* Error message for the name */}
+          {errors.name && <small className="error-message">{errors.name}</small>}
         </div>
 
-        {/* Email */}
-        <div className="flex items-center space-x-4">
-          <label htmlFor="email" className="flex-shrink-0 text-lg font-semibold w-32">
-            <FaEnvelope className="mr-2 text-blue-500" /> {t('signup.email')}
+        <div className="mb-4 flex items-center gap-2">
+          <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+            <FaEnvelope className="mr-2" /> {t('signup.email')}
           </label>
           {isEditing ? (
             <input
-              id="email"
-              name="email"
               type="email"
-              value={editedInfo.email || ""}
+              name="email"
+              value={editedInfo.email}
               onChange={handleInputChange}
-              className="flex-grow px-3 py-2 border rounded-md"
+              className="w-full p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
               required
             />
           ) : (
-            <span>{userInfo.email}</span>
+            <span className='dark:text-gray-400'>{userInfo.email}</span>
           )}
-          {errors.email && <small className="text-red-500">{errors.email}</small>}
+          {errors.email && <small className="error-message">{errors.email}</small>}
         </div>
 
-        {/* Mot de passe */}
-        <div className="flex items-center space-x-4">
-          <label htmlFor="password" className="flex-shrink-0 text-lg font-semibold w-32">
-            <FaLock className="mr-2 text-blue-500" /> {t('signup.password')}
+        <div className="mb-4 flex items-center gap-2">
+          <label className="block text-gray-700 dark:text-gray-200 font-medium mb-2">
+            <FaLock className="mr-2" />  {t('signup.password')}
           </label>
           {isEditing ? (
-            <div className="flex-grow flex items-center space-x-2">
+            <div className="flex items-center gap-2">
               <input
-                id="password"
-                name="password"
                 type={passwordVisible ? 'text' : 'password'}
-                value={editedInfo.password || ""}
+                name="password"
+                value={editedInfo.password || ''}
                 onChange={handleInputChange}
-                className="px-3 py-2 border rounded-md flex-grow"
+                className="p-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                required
+                minLength="8"
+                pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
               />
               <button
                 type="button"
+                className="p-2 bg-orange-500 text-white rounded-md dark:bg-orange-600 hover:bg-orange-400 dark:hover:bg-orange-500"
                 onClick={togglePasswordVisibility}
-                className="text-blue-500"
               >
-                {passwordVisible ? t("hide") : t("show")}
+                {passwordVisible ? 'Cacher' : 'Afficher'}
               </button>
             </div>
           ) : (
-            <span>********</span>
+            <span className="text-gray-600 dark:text-gray-400">********</span>
           )}
-          {errors.password && <small className="text-red-500">{errors.password}</small>}
+          {errors.password && <small className="error-message">{errors.password}</small>}
         </div>
 
-        {/* Actions */}
         <div className="text-center">
           {isEditing ? (
             <>
-              <button
-                type="submit"
-                className="px-4 py-2 bg-blue-500 text-white rounded-md mx-2"
-              >
+              <button type="submit" className="px-6 py-2 bg-blue-500 text-white rounded-md dark:bg-blue-600 hover:bg-blue-400 dark:hover:bg-blue-500">
                 <FaSave /> {t('save')}
               </button>
-              <button
-                type="button"
-                onClick={() => setIsEditing(false)}
-                className="px-4 py-2 bg-red-500 text-white rounded-md mx-2"
-              >
+              <button onClick={handleEditToggle} className="px-6 py-2 bg-red-500 text-white rounded-md dark:bg-red-600 hover:bg-red-400 dark:hover:bg-red-500 ml-2">
                 <FaTimes /> {t('cancel')}
               </button>
             </>
           ) : (
-            <button
-              type="button"
-              onClick={() => setIsEditing(true)}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md"
-            >
+            <button onClick={handleEditToggle} className="px-6 py-2 bg-green-500 text-white rounded-md dark:bg-green-600 hover:bg-green-400 dark:hover:bg-green-500">
               <FaEdit /> {t('update')}
             </button>
           )}
@@ -196,4 +201,3 @@ const Compte = () => {
 };
 
 export default Compte;
-
