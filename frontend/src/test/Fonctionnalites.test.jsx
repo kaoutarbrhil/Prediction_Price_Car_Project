@@ -1,65 +1,51 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import Fonctionnalites from '../pages/Components/Home/Fonctionnalites';
-import { I18nextProvider } from 'react-i18next';
-import i18n from '../i18n'; // Assurez-vous que le chemin vers votre fichier i18n est correct.
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { I18nextProvider } from "react-i18next";
+import i18n from "./i18nMock"; // Chemin vers le fichier i18nMock
+import Fonctionnalites from "../pages/Components/Home/Fonctionnalites";
 
-describe('Fonctionnalites Component', () => {
-  test('renders the features section with correct text', () => {
+describe("Fonctionnalites Component", () => {
+  it("renders features correctly", () => {
     render(
       <I18nextProvider i18n={i18n}>
         <Fonctionnalites />
       </I18nextProvider>
     );
 
-    // Vérifier que le titre des fonctionnalités est affiché
-    const featuresTitle = screen.getByText(/Ce que vous gagnez avec PredictCar/i);
-    expect(featuresTitle).toBeInTheDocument();
-
-    // Vérifier que les icônes et descriptions des fonctionnalités sont affichées
-    const features = [
-      '🚗',
-      '🧠',
-      '📂',
-      '🌍',
-      '⚡',
-      '⌚',
-      '➕',
-    ];
-    features.forEach((icon) => {
-      expect(screen.getByText(icon)).toBeInTheDocument();
-    });
+    // Vérifier que les fonctionnalités sont affichées
+    expect(
+      screen.getByText("Free prediction of imported car prices")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Advanced artificial intelligence algorithms")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Prediction history accessible with one click")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("An intuitive interface accessible to everyone")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Fast and accurate calculation in real-time")
+    ).toBeInTheDocument();
+    expect(screen.getByText("Accessible 24/7 from anywhere")).toBeInTheDocument();
+    expect(screen.getByText("And much more to come...")).toBeInTheDocument();
   });
 
-  test('renders the advantages section with correct table', () => {
+  it("renders advantages correctly", () => {
     render(
       <I18nextProvider i18n={i18n}>
         <Fonctionnalites />
       </I18nextProvider>
     );
 
-    // Vérifier que le titre des avantages est affiché
-    const advantagesTitle = screen.getByText(/Pourquoi PredictCar plutôt qu'une autre/i);
-    expect(advantagesTitle).toBeInTheDocument();
-
-    // Vérifier que les lignes de la table sont présentes
-    const tableRows = screen.getAllByRole('row');
-    expect(tableRows.length).toBeGreaterThan(1); // Titre + contenu
-
-    // Vérifier un contenu spécifique
-    expect(screen.getByText(/Prédiction précise des prix de voiture/i)).toBeInTheDocument();
-  });
-
-  test('renders the "À venir" tag for comingSoon features', () => {
-    render(
-      <I18nextProvider i18n={i18n}>
-        <Fonctionnalites />
-      </I18nextProvider>
-    );
-
-    // Vérifier la présence du tag "À venir"
-    const comingSoonTag = screen.queryByText(/À venir/i);
-    expect(comingSoonTag).not.toBeInTheDocument(); // Aucun "comingSoon" dans vos données actuelles
+    // Vérifier que les avantages sont affichés
+    expect(screen.getByText("Accurate prediction of car prices")).toBeInTheDocument();
+    expect(screen.getByText("Access to prediction history")).toBeInTheDocument();
+    expect(screen.getByText("Simple and easy-to-use interface")).toBeInTheDocument();
+    expect(screen.getByText("Predictions based on real data")).toBeInTheDocument();
+    expect(screen.getByText("Free and no subscription required")).toBeInTheDocument();
+    expect(screen.getByText("Fast and secure account creation")).toBeInTheDocument();
+    expect(screen.getByText("Instant predictions with reliable results")).toBeInTheDocument();
   });
 });

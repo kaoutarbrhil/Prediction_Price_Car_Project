@@ -11,14 +11,13 @@ app = Flask(__name__)
 
 # Configuration de la base de données
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///PredictionHistory.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 CORS(app)  # Autoriser les requêtes entre origines (frontend-backend)
 
 # Chargement des modèles et des fichiers de transformation
-#MODEL_PATH = "C:/Users/Aya/Prediction_Car_Price_Project2 - Copie/Prediction_Car_Price_Project/sales-prediction-app/backend/"
 with open("car_price_model3.pkl", "rb") as model_file:
     model = pickle.load(model_file)
 
@@ -222,16 +221,6 @@ def contact():
         # Valider les données (vous pouvez ajouter plus de validation selon votre besoin)
         if not name or not email or not subject or not message:
             return jsonify({'error': 'Tous les champs doivent être remplis.'}), 400
-
-        # Traitement des données (par exemple, enregistrement dans une base de données ou envoi par email)
-        # Enregistrer le message dans la base de données (optionnel)
-        # new_contact = ContactMessage(name=name, email=email, subject=subject, message=message)
-        # db.session.add(new_contact)
-        # db.session.commit()
-
-        # Si vous souhaitez envoyer un email (optionnel)
-        # msg = Message(subject, recipients=['admin@example.com'], body=message, sender=email)
-        # mail.send(msg)
 
         # Réponse de succès
         return jsonify({'message': 'Votre message a ete envoye avec succes.'}), 200
