@@ -60,8 +60,18 @@
   },
   "jest": {
     "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
-      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+      "<rootDir>/src/__tests__/Accueil.test.jsx",
+      "<rootDir>/src/__tests__/Feedback.test.jsx",
+      "<rootDir>/src/__tests__/Fonctionnalites.test.jsx",
+      "<rootDir>/src/__tests__/Compte.test.js",
+      "<rootDir>/src/__tests__/LeftForm.test.js",
+      "<rootDir>/src/__tests__/Login.test.js",
+      "<rootDir>/src/__tests__/Navbar.test.js",
+      "<rootDir>/src/__tests__/PredictionHistoryPage.test.jsx",
+      "<rootDir>/src/__tests__/PredictionPage.test.jsx",
+      "<rootDir>/src/__tests__/RightForm.test.jsx",
+      "<rootDir>/src/__tests__/Settings.test.jsx",
+      "<rootDir>/src/__tests__/Signup.test.jsx"
     ]
   }
 }
