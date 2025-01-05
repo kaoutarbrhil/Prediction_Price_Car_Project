@@ -1,81 +1,86 @@
 pipeline {
-    agent any
-
+    agent any  // Utilise n'importe quel agent pour exécuter le pipeline
     environment {
-        BACKEND_DIR = 'backend'
-        FRONTEND_DIR = 'frontend'
+        PATH = "C:/Program Files/Git/cmd;${env.PATH}"
     }
-
     stages {
-        stage('Checkout Code') {
+        //stage('Checkout') {
+        //    steps {
+        //        bat "git checkout origin/ma-branche-modifications"
+        //    }
+        //}
+        
+        stage('Pull') {
             steps {
-                // Récupérer le code depuis le dépôt Git
-                checkout scm
+                bat "git fetch origin"
+                //bat "git pull origin ma-branche-modifications"
+                bat "git reset --hard origin/ma-branche-modifications"
             }
         }
 
-        stage('Setup Backend') {
+        stage('Install Frontend Dependencies') {
             steps {
-                dir("${BACKEND_DIR}") {
-                    // Installer les dépendances du backend
-                    sh 'pip install -r requirements.txt'
+                dir('frontend') {  // Accéder au dossier frontend
+                    bat 'npm install'  // npm est déjà dans le PATH
+                }
+            }
+        }
+        
+        stage('Test Frontend') {
+            steps {
+                dir('frontend') {
+                    bat 'npm test'  // npm est déjà dans le PATH
                 }
             }
         }
 
-        stage('Setup Frontend') {
-            steps {
-                dir("${FRONTEND_DIR}") {
-                    // Installer les dépendances du frontend
-                    sh 'npm install'
-                }
-            }
-        }
-
-        stage('Run Tests') {
-            parallel {
-                stage('Backend Tests') {
-                    steps {
-                        dir("${BACKEND_DIR}") {
-                            // Lancer les tests backend
-                            sh 'pytest'
-                        }
-                    }
-                }
-                stage('Frontend Tests') {
-                    steps {
-                        dir("${FRONTEND_DIR}") {
-                            // Lancer les tests frontend
-                            sh 'npm test -- --watchAll=false'
-                        }
-                    }
-                }
-            }
-        }
+        //stage('Install Backend Dependencies') {
+        //    steps {
+        //        dir('backend') {  // Accéder au dossier backend
+        //           bat 'pip install -r requirements.txt'  // python et pip sont dans le PATH
+        //        }
+        //    }
+        //}
 
         stage('Build Frontend') {
             steps {
-                dir("${FRONTEND_DIR}") {
-                    // Construire les fichiers frontend
-                    sh 'npm run build'
+                dir('frontend') {
+                    bat 'npm run build'  // npm est déjà dans le PATH
                 }
             }
         }
 
-        stage('Deploy') {
+        //stage('Test Backend (Python)') {
+        //    steps {
+        //        dir('backend') {
+        //            bat 'pytest'  // pytest utilise python, donc python doit être dans le PATH
+        //        }
+        //    }
+        //}
+
+        //stage('Run Backend (Python)') {
+        //    steps {
+        //        dir('backend') {
+        //            bat 'python app.py'  // python est déjà dans le PATH
+        //        }
+        //    }
+        //}
+
+        stage('Start Frontend (React)') {
             steps {
-                echo 'Déploiement en cours...'
-                // Ajoutez ici vos étapes pour copier ou déployer les fichiers générés sur un serveur
+                dir('frontend') {
+                    bat 'npm start'  // npm est déjà dans le PATH
+                }
             }
         }
     }
 
     post {
         always {
-            echo 'Pipeline terminé.'
+            echo 'Nettoyage après l\'exécution du pipeline.'
         }
         success {
-            echo 'Pipeline exécuté avec succès.'
+            echo 'Le pipeline a été exécuté avec succès !'
         }
         failure {
             echo 'Le pipeline a échoué.'
